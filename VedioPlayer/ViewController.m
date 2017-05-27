@@ -7,16 +7,21 @@
 //
 
 #import "ViewController.h"
+#import "MusicPlayerView.h"
 
 @interface ViewController ()
-
+@property (nonatomic, strong) MusicPlayerView *playerView;
 @end
 
 @implementation ViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    VedioModel *model = [[VedioModel alloc]init];
+    model.musicURL = @"http://jfz-gxq-public2.oss-cn-hangzhou.aliyuncs.com/m/kepu01.mp4";
+    self.playerView = [[MusicPlayerView alloc]initWithFrame:CGRectMake(0, 50, 320, 40)];
+    [self.playerView setUp:model];
+    [self.view addSubview:self.playerView];
 }
 
 

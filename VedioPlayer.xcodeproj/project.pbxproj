@@ -7,15 +7,34 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5EB0C9322B380DEEE8173E3C /* libPods-VedioPlayer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 74A7BF7C4BA970D7B8BD7C47 /* libPods-VedioPlayer.a */; };
 		6F63BE981EADA360001E4994 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F63BE971EADA360001E4994 /* main.m */; };
 		6F63BE9B1EADA360001E4994 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F63BE9A1EADA360001E4994 /* AppDelegate.m */; };
 		6F63BE9E1EADA360001E4994 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F63BE9D1EADA360001E4994 /* ViewController.m */; };
 		6F63BEA11EADA360001E4994 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6F63BE9F1EADA360001E4994 /* Main.storyboard */; };
 		6F63BEA31EADA360001E4994 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6F63BEA21EADA360001E4994 /* Assets.xcassets */; };
 		6F63BEA61EADA360001E4994 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6F63BEA41EADA360001E4994 /* LaunchScreen.storyboard */; };
+		6F9B37451ED969D60071ECD9 /* VedioPlayerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9B37441ED969D60071ECD9 /* VedioPlayerConfig.m */; };
+		6F9B37481ED96A6A0071ECD9 /* VedioPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9B37471ED96A6A0071ECD9 /* VedioPlayerView.m */; };
+		6F9B374C1ED96ACE0071ECD9 /* VedioModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9B374B1ED96ACE0071ECD9 /* VedioModel.m */; };
+		6F9B37501ED96B0C0071ECD9 /* MusicPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9B374F1ED96B0C0071ECD9 /* MusicPlayerView.m */; };
+		6F9B37531ED96B2E0071ECD9 /* MusicSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9B37521ED96B2E0071ECD9 /* MusicSlider.m */; };
+		6F9B37601ED96E080071ECD9 /* fullscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37551ED96E080071ECD9 /* fullscreen.png */; };
+		6F9B37611ED96E080071ECD9 /* fullscreen2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37561ED96E080071ECD9 /* fullscreen2.png */; };
+		6F9B37621ED96E080071ECD9 /* ico_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37571ED96E080071ECD9 /* ico_play@2x.png */; };
+		6F9B37631ED96E080071ECD9 /* ico_play@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37581ED96E080071ECD9 /* ico_play@3x.png */; };
+		6F9B37641ED96E080071ECD9 /* ico_stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37591ED96E080071ECD9 /* ico_stop@2x.png */; };
+		6F9B37651ED96E080071ECD9 /* ico_stop@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B375A1ED96E080071ECD9 /* ico_stop@3x.png */; };
+		6F9B37661ED96E080071ECD9 /* icon_music_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B375B1ED96E080071ECD9 /* icon_music_play@2x.png */; };
+		6F9B37671ED96E080071ECD9 /* icon_music_play@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B375C1ED96E080071ECD9 /* icon_music_play@3x.png */; };
+		6F9B37681ED96E080071ECD9 /* nonfullscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B375D1ED96E080071ECD9 /* nonfullscreen.png */; };
+		6F9B37691ED96E080071ECD9 /* Rectangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B375E1ED96E080071ECD9 /* Rectangle@2x.png */; };
+		6F9B376A1ED96E080071ECD9 /* Rectangle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B375F1ED96E080071ECD9 /* Rectangle@3x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		473FA326654A72C98B1AA8FD /* Pods-VedioPlayer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VedioPlayer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-VedioPlayer/Pods-VedioPlayer.debug.xcconfig"; sourceTree = "<group>"; };
+		68BC94C144D8F2248EFCE651 /* Pods-VedioPlayer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-VedioPlayer.release.xcconfig"; path = "Pods/Target Support Files/Pods-VedioPlayer/Pods-VedioPlayer.release.xcconfig"; sourceTree = "<group>"; };
 		6F63BE931EADA360001E4994 /* VedioPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VedioPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F63BE971EADA360001E4994 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		6F63BE991EADA360001E4994 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -26,6 +45,28 @@
 		6F63BEA21EADA360001E4994 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6F63BEA51EADA360001E4994 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6F63BEA71EADA360001E4994 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6F9B37431ED969D60071ECD9 /* VedioPlayerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VedioPlayerConfig.h; sourceTree = "<group>"; };
+		6F9B37441ED969D60071ECD9 /* VedioPlayerConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VedioPlayerConfig.m; sourceTree = "<group>"; };
+		6F9B37461ED96A6A0071ECD9 /* VedioPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VedioPlayerView.h; sourceTree = "<group>"; };
+		6F9B37471ED96A6A0071ECD9 /* VedioPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VedioPlayerView.m; sourceTree = "<group>"; };
+		6F9B374A1ED96ACE0071ECD9 /* VedioModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VedioModel.h; sourceTree = "<group>"; };
+		6F9B374B1ED96ACE0071ECD9 /* VedioModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VedioModel.m; sourceTree = "<group>"; };
+		6F9B374E1ED96B0C0071ECD9 /* MusicPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicPlayerView.h; sourceTree = "<group>"; };
+		6F9B374F1ED96B0C0071ECD9 /* MusicPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicPlayerView.m; sourceTree = "<group>"; };
+		6F9B37511ED96B2E0071ECD9 /* MusicSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicSlider.h; sourceTree = "<group>"; };
+		6F9B37521ED96B2E0071ECD9 /* MusicSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicSlider.m; sourceTree = "<group>"; };
+		6F9B37551ED96E080071ECD9 /* fullscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fullscreen.png; sourceTree = "<group>"; };
+		6F9B37561ED96E080071ECD9 /* fullscreen2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fullscreen2.png; sourceTree = "<group>"; };
+		6F9B37571ED96E080071ECD9 /* ico_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico_play@2x.png"; sourceTree = "<group>"; };
+		6F9B37581ED96E080071ECD9 /* ico_play@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico_play@3x.png"; sourceTree = "<group>"; };
+		6F9B37591ED96E080071ECD9 /* ico_stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico_stop@2x.png"; sourceTree = "<group>"; };
+		6F9B375A1ED96E080071ECD9 /* ico_stop@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico_stop@3x.png"; sourceTree = "<group>"; };
+		6F9B375B1ED96E080071ECD9 /* icon_music_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_music_play@2x.png"; sourceTree = "<group>"; };
+		6F9B375C1ED96E080071ECD9 /* icon_music_play@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_music_play@3x.png"; sourceTree = "<group>"; };
+		6F9B375D1ED96E080071ECD9 /* nonfullscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nonfullscreen.png; sourceTree = "<group>"; };
+		6F9B375E1ED96E080071ECD9 /* Rectangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rectangle@2x.png"; sourceTree = "<group>"; };
+		6F9B375F1ED96E080071ECD9 /* Rectangle@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rectangle@3x.png"; sourceTree = "<group>"; };
+		74A7BF7C4BA970D7B8BD7C47 /* libPods-VedioPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VedioPlayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +74,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5EB0C9322B380DEEE8173E3C /* libPods-VedioPlayer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		19BC78AB8C59D0BF91DA8FED /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				473FA326654A72C98B1AA8FD /* Pods-VedioPlayer.debug.xcconfig */,
+				68BC94C144D8F2248EFCE651 /* Pods-VedioPlayer.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		6F63BE8A1EADA360001E4994 = {
 			isa = PBXGroup;
 			children = (
 				6F63BE951EADA360001E4994 /* VedioPlayer */,
 				6F63BE941EADA360001E4994 /* Products */,
+				19BC78AB8C59D0BF91DA8FED /* Pods */,
+				971AD2937735303D4200C6FC /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +111,8 @@
 		6F63BE951EADA360001E4994 /* VedioPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				6F9B37491ED96AAC0071ECD9 /* VedioPlayer */,
+				6F9B374D1ED96AED0071ECD9 /* MusicPlayer */,
 				6F63BE991EADA360001E4994 /* AppDelegate.h */,
 				6F63BE9A1EADA360001E4994 /* AppDelegate.m */,
 				6F63BE9C1EADA360001E4994 /* ViewController.h */,
@@ -74,9 +129,60 @@
 		6F63BE961EADA360001E4994 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6F9B37541ED96E080071ECD9 /* resources */,
 				6F63BE971EADA360001E4994 /* main.m */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6F9B37491ED96AAC0071ECD9 /* VedioPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				6F9B37431ED969D60071ECD9 /* VedioPlayerConfig.h */,
+				6F9B37441ED969D60071ECD9 /* VedioPlayerConfig.m */,
+				6F9B37461ED96A6A0071ECD9 /* VedioPlayerView.h */,
+				6F9B37471ED96A6A0071ECD9 /* VedioPlayerView.m */,
+				6F9B374A1ED96ACE0071ECD9 /* VedioModel.h */,
+				6F9B374B1ED96ACE0071ECD9 /* VedioModel.m */,
+			);
+			name = VedioPlayer;
+			sourceTree = "<group>";
+		};
+		6F9B374D1ED96AED0071ECD9 /* MusicPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				6F9B374E1ED96B0C0071ECD9 /* MusicPlayerView.h */,
+				6F9B374F1ED96B0C0071ECD9 /* MusicPlayerView.m */,
+				6F9B37511ED96B2E0071ECD9 /* MusicSlider.h */,
+				6F9B37521ED96B2E0071ECD9 /* MusicSlider.m */,
+			);
+			name = MusicPlayer;
+			sourceTree = "<group>";
+		};
+		6F9B37541ED96E080071ECD9 /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				6F9B37551ED96E080071ECD9 /* fullscreen.png */,
+				6F9B37561ED96E080071ECD9 /* fullscreen2.png */,
+				6F9B37571ED96E080071ECD9 /* ico_play@2x.png */,
+				6F9B37581ED96E080071ECD9 /* ico_play@3x.png */,
+				6F9B37591ED96E080071ECD9 /* ico_stop@2x.png */,
+				6F9B375A1ED96E080071ECD9 /* ico_stop@3x.png */,
+				6F9B375B1ED96E080071ECD9 /* icon_music_play@2x.png */,
+				6F9B375C1ED96E080071ECD9 /* icon_music_play@3x.png */,
+				6F9B375D1ED96E080071ECD9 /* nonfullscreen.png */,
+				6F9B375E1ED96E080071ECD9 /* Rectangle@2x.png */,
+				6F9B375F1ED96E080071ECD9 /* Rectangle@3x.png */,
+			);
+			path = resources;
+			sourceTree = SOURCE_ROOT;
+		};
+		971AD2937735303D4200C6FC /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				74A7BF7C4BA970D7B8BD7C47 /* libPods-VedioPlayer.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -86,9 +192,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6F63BEAA1EADA360001E4994 /* Build configuration list for PBXNativeTarget "VedioPlayer" */;
 			buildPhases = (
+				D52E1A28597066C23E694F36 /* [CP] Check Pods Manifest.lock */,
 				6F63BE8F1EADA360001E4994 /* Sources */,
 				6F63BE901EADA360001E4994 /* Frameworks */,
 				6F63BE911EADA360001E4994 /* Resources */,
+				05D24A2E26DA7538296D5C8A /* [CP] Embed Pods Frameworks */,
+				89002E93783F360E13DD05C6 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -137,13 +246,72 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6F9B37691ED96E080071ECD9 /* Rectangle@2x.png in Resources */,
+				6F9B37611ED96E080071ECD9 /* fullscreen2.png in Resources */,
+				6F9B37661ED96E080071ECD9 /* icon_music_play@2x.png in Resources */,
+				6F9B37601ED96E080071ECD9 /* fullscreen.png in Resources */,
+				6F9B37621ED96E080071ECD9 /* ico_play@2x.png in Resources */,
+				6F9B37631ED96E080071ECD9 /* ico_play@3x.png in Resources */,
+				6F9B37671ED96E080071ECD9 /* icon_music_play@3x.png in Resources */,
+				6F9B37681ED96E080071ECD9 /* nonfullscreen.png in Resources */,
+				6F9B37641ED96E080071ECD9 /* ico_stop@2x.png in Resources */,
+				6F9B37651ED96E080071ECD9 /* ico_stop@3x.png in Resources */,
 				6F63BEA61EADA360001E4994 /* LaunchScreen.storyboard in Resources */,
 				6F63BEA31EADA360001E4994 /* Assets.xcassets in Resources */,
 				6F63BEA11EADA360001E4994 /* Main.storyboard in Resources */,
+				6F9B376A1ED96E080071ECD9 /* Rectangle@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		05D24A2E26DA7538296D5C8A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VedioPlayer/Pods-VedioPlayer-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		89002E93783F360E13DD05C6 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-VedioPlayer/Pods-VedioPlayer-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		D52E1A28597066C23E694F36 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6F63BE8F1EADA360001E4994 /* Sources */ = {
@@ -151,6 +319,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F63BE9E1EADA360001E4994 /* ViewController.m in Sources */,
+				6F9B37481ED96A6A0071ECD9 /* VedioPlayerView.m in Sources */,
+				6F9B37451ED969D60071ECD9 /* VedioPlayerConfig.m in Sources */,
+				6F9B37501ED96B0C0071ECD9 /* MusicPlayerView.m in Sources */,
+				6F9B37531ED96B2E0071ECD9 /* MusicSlider.m in Sources */,
+				6F9B374C1ED96ACE0071ECD9 /* VedioModel.m in Sources */,
 				6F63BE9B1EADA360001E4994 /* AppDelegate.m in Sources */,
 				6F63BE981EADA360001E4994 /* main.m in Sources */,
 			);
@@ -272,6 +445,7 @@
 		};
 		6F63BEAB1EADA360001E4994 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 473FA326654A72C98B1AA8FD /* Pods-VedioPlayer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = VedioPlayer/Info.plist;
@@ -283,6 +457,7 @@
 		};
 		6F63BEAC1EADA360001E4994 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 68BC94C144D8F2248EFCE651 /* Pods-VedioPlayer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = VedioPlayer/Info.plist;
@@ -311,6 +486,7 @@
 				6F63BEAC1EADA360001E4994 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
