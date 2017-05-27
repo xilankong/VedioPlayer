@@ -15,15 +15,15 @@
 
 @optional
 //播放失败的代理方法
--(void)jfzPlayerViewFailed:(VedioPlayerView *)player;
+-(void)playerViewFailed:(VedioPlayerView *)player;
 //缓存中的代理方法
--(void)jfzPlayerViewBuffering:(VedioPlayerView *)player;
+-(void)playerViewBuffering:(VedioPlayerView *)player;
 //播放完毕的代理方法
--(void)jfzPlayerViewFinished:(VedioPlayerView *)player;
+-(void)playerViewFinished:(VedioPlayerView *)player;
 
 @end
 
-@interface VedioPlayerView : UIView <VedioPlayerViewDelegate>
+@interface VedioPlayerView : UIView
 
 @property (nonatomic, weak) id<VedioPlayerViewDelegate> delegate;
 

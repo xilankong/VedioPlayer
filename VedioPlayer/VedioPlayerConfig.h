@@ -17,12 +17,12 @@
 
 #pragma mark 常用枚举
 
-typedef NS_ENUM(NSUInteger, JFZVedioStatus) {
-    JFZVedioStatusFailed,        // 播放失败
-    JFZVedioStatusBuffering,     // 缓冲中
-    JFZVedioStatusPlaying,       // 播放中
-    JFZVedioStatusFinished,       //停止播放
-    JFZVedioStatusPause       // 暂停播放
+typedef NS_ENUM(NSUInteger, VedioStatus) {
+    VedioStatusFailed,        // 播放失败
+    VedioStatusBuffering,     // 缓冲中
+    VedioStatusPlaying,       // 播放中
+    VedioStatusFinished,       //停止播放
+    VedioStatusPause       // 暂停播放
 };
 
 @interface VedioPlayerConfig : NSObject

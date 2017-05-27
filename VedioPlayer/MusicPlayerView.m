@@ -9,7 +9,6 @@
 #import "MusicPlayerView.h"
 #import <Masonry/Masonry.h>
 
-
 @interface MusicPlayerView ()<MusicSliderDelegate>
 
 @property (nonatomic, strong) AVPlayer *player;
@@ -33,7 +32,7 @@
 //是否拖拽中
 @property (nonatomic, assign) BOOL isDragging;
 //播放状态
-@property (nonatomic, assign) JFZVedioStatus playerStatus;
+@property (nonatomic, assign) VedioStatus playerStatus;
 //总播放时长
 @property (nonatomic, assign) CGFloat totalTime;
 //文件模型
@@ -69,9 +68,11 @@
     
     self.backgroundColor = [UIColor orangeColor];
     self.playButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self.playButton setImage:[UIImage imageNamed:@"ico_play"] forState:UIControlStateNormal];
+    
+    [self.playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.playButton];
+    
     __weak typeof(self) weakself = self;
     [self.playButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(weakself).offset(5);
@@ -79,11 +80,14 @@
         make.width.mas_equalTo(35);
         make.height.mas_equalTo(35);
     }];
+    
     self.timeNowLabel = [[UILabel alloc]init];
     self.timeNowLabel.textColor = [UIColor whiteColor];
     self.timeNowLabel.font = [UIFont systemFontOfSize:13];
     self.timeNowLabel.text = @"00:00";
+    
     [self addSubview:self.timeNowLabel];
+    
     [self.timeNowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(weakself.playButton.mas_trailing).offset(5);
         make.centerY.equalTo(weakself);
@@ -91,7 +95,7 @@
         make.width.mas_equalTo(37);
     }];
     
-    self.timeSlider = [[MusicSlider alloc] initWithFrame:CGRectMake(45 + 37 + 5, 0, weakself.frame.size.width - 45 - 37 - 50 - 10, self.frame.size.height)];
+    self.timeSlider = [[MusicSlider alloc] initWithFrame:CGRectMake(87, 0, weakself.frame.size.width - 142, self.frame.size.height)];
     [self addSubview:self.timeSlider];
     
     self.timeTotalLabel = [[UILabel alloc]init];
@@ -110,7 +114,7 @@
     self.timeSlider.trackBackgoundColor = TrackColor;
     self.timeSlider.playProgressBackgoundImage = [UIImage imageNamed:@"Rectangle"];
     [self.playButton setImage:[UIImage imageNamed:@"ico_play"] forState:UIControlStateNormal];
-    self.playerStatus = JFZVedioStatusPause;
+    self.playerStatus = VedioStatusPause;
 }
 
 - (void)setUp:(VedioModel *)model {
@@ -178,7 +182,6 @@
 }
 
 //销毁player,无奈之举 因为avplayeritem的制空后依然缓存的问题。
-
 - (void)destroyPlayer {
     
     [self.playerItem removeObserver:self forKeyPath:@"status"];
@@ -189,7 +192,7 @@
     self.playerItem = nil;
     self.player = nil;
     
-    self.playerStatus = JFZVedioStatusPause;
+    self.playerStatus = VedioStatusPause;
     self.timeSlider.value = 0;
     self.timeNowLabel.text = @"00:00";
 }
@@ -208,17 +211,17 @@
 
 #pragma mark 播放，暂停
 - (void)play{
-    if (self.player && self.playerStatus == JFZVedioStatusPause) {
+    if (self.player && self.playerStatus == VedioStatusPause) {
         NSLog(@"通过播放停止");
-        self.playerStatus = JFZVedioStatusBuffering;
+        self.playerStatus = VedioStatusBuffering;
         [self.player play];
     }
 }
 
 - (void)pause{
-    if (self.player && self.playerStatus != JFZVedioStatusPause) {
+    if (self.player && self.playerStatus != VedioStatusPause) {
         NSLog(@"通过暂停停止");
-        self.playerStatus = JFZVedioStatusPause;
+        self.playerStatus = VedioStatusPause;
         [self.player pause];
     }
 }
@@ -273,31 +276,31 @@
         NSTimeInterval totalBuffer = CMTimeGetSeconds(timeRange.start) + CMTimeGetSeconds(timeRange.duration); //缓冲总长度
         self.timeSlider.trackValue = totalBuffer;
         //当缓存到位后开启播放，取消loading
-        if (totalBuffer >self.timeSlider.value && self.playerStatus != JFZVedioStatusPause) {
+        if (totalBuffer >self.timeSlider.value && self.playerStatus != VedioStatusPause) {
             [self.player play];
         }
         NSLog(@"---共缓冲---%.2f",totalBuffer);
     } else if ([keyPath isEqualToString:@"rate"]){
         AVPlayer *item = (AVPlayer *)object;
         if (item.rate == 0) {
-            if (self.playerStatus != JFZVedioStatusPause) {
-                self.playerStatus = JFZVedioStatusBuffering;
+            if (self.playerStatus != VedioStatusPause) {
+                self.playerStatus = VedioStatusBuffering;
             }
         } else {
-            self.playerStatus = JFZVedioStatusPlaying;
+            self.playerStatus = VedioStatusPlaying;
             
         }
         NSLog(@"---播放速度---%f",item.rate);
     } else if([keyPath isEqualToString:@"playerStatus"]){
         switch (self.playerStatus) {
-            case JFZVedioStatusBuffering:
+            case VedioStatusBuffering:
                 [self.timeSlider.sliderBtn showActivity:YES];
                 break;
-            case JFZVedioStatusPause:
+            case VedioStatusPause:
                 [self.playButton setImage:[UIImage imageNamed:@"ico_play"] forState:UIControlStateNormal];
                 [self.timeSlider.sliderBtn showActivity:NO];
                 break;
-            case JFZVedioStatusPlaying:
+            case VedioStatusPlaying:
                 [self.playButton setImage:[UIImage imageNamed:@"ico_stop"] forState:UIControlStateNormal];
                 [self.timeSlider.sliderBtn showActivity:NO];
                 break;
@@ -315,21 +318,6 @@
     self.isDragging = YES;
 }
 
-// 结束拖动
-- (void)endSliderScrubbing {
-    self.isDragging = NO;
-    CMTime time = CMTimeMake(self.timeSlider.value, 1);
-    self.timeNowLabel.text = [VedioPlayerConfig convertTime:self.timeSlider.value];
-    if (self.playerStatus != JFZVedioStatusPause) {
-        [self.player pause];
-        [self.playerItem seekToTime:time completionHandler:^(BOOL finished) {
-            [self.player play];
-            self.playerStatus = JFZVedioStatusBuffering;
-            NSLog(@"SEEK------END");
-        }];
-    }
-}
-
 // 拖动值发生改变
 - (void)sliderScrubbing {
     if (self.totalTime != 0) {
@@ -337,10 +325,24 @@
     }
 }
 
+// 结束拖动
+- (void)endSliderScrubbing {
+    self.isDragging = NO;
+    CMTime time = CMTimeMake(self.timeSlider.value, 1);
+    self.timeNowLabel.text = [VedioPlayerConfig convertTime:self.timeSlider.value];
+    if (self.playerStatus != VedioStatusPause) {
+        [self.player pause];
+        [self.playerItem seekToTime:time completionHandler:^(BOOL finished) {
+            [self.player play];
+            self.playerStatus = VedioStatusBuffering; //结束拖动后处于一个缓冲状态?如果直接拖到结束呢？
+        }];
+    }
+}
+
 #pragma mark 播放按钮事件
 - (void)playButtonAction:(id)sender {
     if (self.player) {
-        if (self.playerStatus == JFZVedioStatusPause) {
+        if (self.playerStatus == VedioStatusPause) {
             [self play];
         } else {
             [self pause];
@@ -357,7 +359,6 @@
     self.timeSlider.maximumValue = duration;
     self.timeTotalLabel.text = [VedioPlayerConfig convertTime:duration];
 }
-
 
 - (void)dealloc
 {

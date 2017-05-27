@@ -157,7 +157,7 @@
 /**
  拖动值发生改变
  */
-- (void) dragMoving: (UIButton *)btn withEvent:(UIEvent *)event{
+- (void)dragMoving: (UIButton *)btn withEvent:(UIEvent *)event{
     
     CGPoint point = [[[event allTouches] anyObject] locationInView:self];
     CGFloat offsetX = point.x - _lastPoint.x;
