@@ -172,15 +172,21 @@
         progressValue = 1;
     }
     [self setValue:progressValue*_maximumValue];
-    [_delegate sliderScrubbing];
+    if (self.delegate) {
+        [_delegate sliderScrubbing];
+    }
 }
 // 开始拖动
 - (void)beiginSliderScrubbing{
-    [_delegate beiginSliderScrubbing];
+    if (self.delegate) {
+        [_delegate beiginSliderScrubbing];
+    }
 }
 // 结束拖动
 - (void)endSliderScrubbing{
-    [_delegate endSliderScrubbing];
+    if (self.delegate) {
+        [_delegate endSliderScrubbing];
+    }
 }
 @end
 

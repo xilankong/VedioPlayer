@@ -30,6 +30,9 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+- (IBAction)removeAction:(id)sender {
+    [self.playerView removeFromSuperview];
+}
 
 //播放失败的代理方法
 -(void)playerViewFailed:(VedioPlayerView *)player {
@@ -44,4 +47,8 @@
     NSLog(@"播放完毕的代理方法");
 }
 
+- (void)dealloc
+{
+    self.playerView = nil;
+}
 @end
