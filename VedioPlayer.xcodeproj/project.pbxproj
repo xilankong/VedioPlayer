@@ -19,8 +19,8 @@
 		6F9B374C1ED96ACE0071ECD9 /* VedioModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9B374B1ED96ACE0071ECD9 /* VedioModel.m */; };
 		6F9B37501ED96B0C0071ECD9 /* MusicPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9B374F1ED96B0C0071ECD9 /* MusicPlayerView.m */; };
 		6F9B37531ED96B2E0071ECD9 /* MusicSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9B37521ED96B2E0071ECD9 /* MusicSlider.m */; };
-		6F9B37601ED96E080071ECD9 /* fullscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37551ED96E080071ECD9 /* fullscreen.png */; };
-		6F9B37611ED96E080071ECD9 /* fullscreen2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37561ED96E080071ECD9 /* fullscreen2.png */; };
+		6F9B37601ED96E080071ECD9 /* fullscreen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37551ED96E080071ECD9 /* fullscreen@2x.png */; };
+		6F9B37611ED96E080071ECD9 /* fullscreen2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37561ED96E080071ECD9 /* fullscreen2@2x.png */; };
 		6F9B37621ED96E080071ECD9 /* ico_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37571ED96E080071ECD9 /* ico_play@2x.png */; };
 		6F9B37631ED96E080071ECD9 /* ico_play@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37581ED96E080071ECD9 /* ico_play@3x.png */; };
 		6F9B37641ED96E080071ECD9 /* ico_stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37591ED96E080071ECD9 /* ico_stop@2x.png */; };
@@ -55,8 +55,8 @@
 		6F9B374F1ED96B0C0071ECD9 /* MusicPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicPlayerView.m; sourceTree = "<group>"; };
 		6F9B37511ED96B2E0071ECD9 /* MusicSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicSlider.h; sourceTree = "<group>"; };
 		6F9B37521ED96B2E0071ECD9 /* MusicSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicSlider.m; sourceTree = "<group>"; };
-		6F9B37551ED96E080071ECD9 /* fullscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fullscreen.png; sourceTree = "<group>"; };
-		6F9B37561ED96E080071ECD9 /* fullscreen2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fullscreen2.png; sourceTree = "<group>"; };
+		6F9B37551ED96E080071ECD9 /* fullscreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fullscreen@2x.png"; sourceTree = "<group>"; };
+		6F9B37561ED96E080071ECD9 /* fullscreen2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fullscreen2@2x.png"; sourceTree = "<group>"; };
 		6F9B37571ED96E080071ECD9 /* ico_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico_play@2x.png"; sourceTree = "<group>"; };
 		6F9B37581ED96E080071ECD9 /* ico_play@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico_play@3x.png"; sourceTree = "<group>"; };
 		6F9B37591ED96E080071ECD9 /* ico_stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico_stop@2x.png"; sourceTree = "<group>"; };
@@ -162,8 +162,8 @@
 		6F9B37541ED96E080071ECD9 /* resources */ = {
 			isa = PBXGroup;
 			children = (
-				6F9B37551ED96E080071ECD9 /* fullscreen.png */,
-				6F9B37561ED96E080071ECD9 /* fullscreen2.png */,
+				6F9B37551ED96E080071ECD9 /* fullscreen@2x.png */,
+				6F9B37561ED96E080071ECD9 /* fullscreen2@2x.png */,
 				6F9B37571ED96E080071ECD9 /* ico_play@2x.png */,
 				6F9B37581ED96E080071ECD9 /* ico_play@3x.png */,
 				6F9B37591ED96E080071ECD9 /* ico_stop@2x.png */,
@@ -219,6 +219,7 @@
 				TargetAttributes = {
 					6F63BE921EADA360001E4994 = {
 						CreatedOnToolsVersion = 8.3.1;
+						DevelopmentTeam = A7AZHSY868;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -247,9 +248,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				6F9B37691ED96E080071ECD9 /* Rectangle@2x.png in Resources */,
-				6F9B37611ED96E080071ECD9 /* fullscreen2.png in Resources */,
+				6F9B37611ED96E080071ECD9 /* fullscreen2@2x.png in Resources */,
 				6F9B37661ED96E080071ECD9 /* icon_music_play@2x.png in Resources */,
-				6F9B37601ED96E080071ECD9 /* fullscreen.png in Resources */,
+				6F9B37601ED96E080071ECD9 /* fullscreen@2x.png in Resources */,
 				6F9B37621ED96E080071ECD9 /* ico_play@2x.png in Resources */,
 				6F9B37631ED96E080071ECD9 /* ico_play@3x.png in Resources */,
 				6F9B37671ED96E080071ECD9 /* icon_music_play@3x.png in Resources */,
@@ -448,6 +449,7 @@
 			baseConfigurationReference = 473FA326654A72C98B1AA8FD /* Pods-VedioPlayer.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = A7AZHSY868;
 				INFOPLIST_FILE = VedioPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yang.VedioPlayer;
@@ -460,6 +462,7 @@
 			baseConfigurationReference = 68BC94C144D8F2248EFCE651 /* Pods-VedioPlayer.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = A7AZHSY868;
 				INFOPLIST_FILE = VedioPlayer/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.yang.VedioPlayer;

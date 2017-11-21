@@ -8,7 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "VedioPlayerConfig.h"
-
+#import "VedioModel.h"
+#import "MusicSlider.h"
 @class VedioPlayerView;
 
 @protocol VedioPlayerViewDelegate <NSObject>
@@ -26,5 +27,9 @@
 @interface VedioPlayerView : UIView
 
 @property (nonatomic, weak) id<VedioPlayerViewDelegate> delegate;
+
+- (void)setUp:(VedioModel *)model;
+
+- (void)changeMusic:(VedioModel *)musicModel;
 
 @end
