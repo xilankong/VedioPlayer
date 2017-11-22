@@ -6,16 +6,64 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VedioPlayer/ViewController.m"
-            timestampString = "532950194.778249"
+            filePath = "VedioPlayer/Vedio/VedioPlayerViewController.m"
+            timestampString = "533038089.385808"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
-            landmarkName = "-viewWillTransitionToSize:withTransitionCoordinator:"
+            startingLineNumber = "373"
+            endingLineNumber = "373"
+            landmarkName = "-observeValueForKeyPath:ofObject:change:context:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VedioPlayer/Vedio/VedioPlayerViewController.m"
+            timestampString = "533038089.3859"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "413"
+            endingLineNumber = "413"
+            landmarkName = "-observeValueForKeyPath:ofObject:change:context:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VedioPlayer/Vedio/VedioPlayerViewController.m"
+            timestampString = "533038089.385972"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "193"
+            endingLineNumber = "193"
+            landmarkName = "-onDeviceOrientationChange"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "VedioPlayer/Vedio/VedioPlayerViewController.m"
+            timestampString = "533038089.386034"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "267"
+            endingLineNumber = "267"
+            landmarkName = "-setDeviceOrientationLandscapeRight"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -25,13 +73,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VedioPlayer/ViewController.m"
-            timestampString = "532950194.778327"
+            filePath = "VedioPlayer/View/ProgressSlider.m"
+            timestampString = "533038089.3861"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
-            landmarkName = "-viewWillTransitionToSize:withTransitionCoordinator:"
+            startingLineNumber = "74"
+            endingLineNumber = "74"
+            landmarkName = "-layoutSubviews"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -41,94 +89,14 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VedioPlayer/ViewController.m"
-            timestampString = "532950194.77838"
+            filePath = "VedioPlayer/View/ProgressSlider.m"
+            timestampString = "533038089.386406"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "-viewWillTransitionToSize:withTransitionCoordinator:"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "-layoutSubviews"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ViewController viewWillTransitionToSize:withTransitionCoordinator:]"
-                  moduleName = "VedioPlayer"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/young/Desktop/demo/github/VedioPlayer/VedioPlayer/ViewController.m"
-                  timestampString = "532950194.848588"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "69"
-                  endingLineNumber = "69"
-                  offsetFromSymbolStart = "294">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__69-[ViewController viewWillTransitionToSize:withTransitionCoordinator:]_block_invoke.42"
-                  moduleName = "VedioPlayer"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/young/Desktop/demo/github/VedioPlayer/VedioPlayer/ViewController.m"
-                  timestampString = "532950194.852389"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "70"
-                  endingLineNumber = "70"
-                  offsetFromSymbolStart = "10">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VedioPlayer/ViewController.m"
-            timestampString = "532950194.778428"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
-            landmarkName = "-viewWillTransitionToSize:withTransitionCoordinator:"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[ViewController viewWillTransitionToSize:withTransitionCoordinator:]"
-                  moduleName = "VedioPlayer"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/young/Desktop/demo/github/VedioPlayer/VedioPlayer/ViewController.m"
-                  timestampString = "532950194.857148"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "65"
-                  endingLineNumber = "65"
-                  offsetFromSymbolStart = "112">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "__69-[ViewController viewWillTransitionToSize:withTransitionCoordinator:]_block_invoke"
-                  moduleName = "VedioPlayer"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/young/Desktop/demo/github/VedioPlayer/VedioPlayer/ViewController.m"
-                  timestampString = "532950194.858576"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "66"
-                  endingLineNumber = "66"
-                  offsetFromSymbolStart = "10">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

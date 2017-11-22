@@ -1,25 +1,21 @@
 //
-//  VedioPlayerView.m
+//  MusicPlayerView.m
 //  VedioPlayer
 //
 //  Created by yanghuang on 2017/5/27.
 //  Copyright © 2017年 com.yang. All rights reserved.
 //
 
-#import "VedioPlayerView.h"
+#import "MusicPlayerView.h"
 #import <Masonry/Masonry.h>
-#import "AppDelegate.h"
 
-@interface VedioPlayerView ()<MusicSliderDelegate>
+@interface MusicPlayerView ()<ProgressSliderDelegate>
 
-@property (nonatomic, strong) UIView *playerView;
-@property (nonatomic, strong) UIView *controlView;
-@property (nonatomic, strong) UIView *toolBarView;
 @property (nonatomic, strong) AVPlayer *player;
-@property (nonatomic, strong) AVPlayerLayer *playerLayer;
+
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 
-@property (nonatomic, strong) MusicSlider *timeSlider;
+@property (nonatomic, strong) ProgressSlider *timeSlider;
 
 @property (nonatomic, strong) UILabel *timeNowLabel;
 
@@ -27,7 +23,6 @@
 
 @property (nonatomic, strong) UIButton *playButton;
 
-@property (nonatomic, strong) UIButton *landscapeButton;
 
 /*
  * 是否处于seek阶段/seek中间会存在一个不同步问题
@@ -46,8 +41,8 @@
 @property (nonatomic, strong) id timeObserver;
 @end
 
-@implementation VedioPlayerView
 
+@implementation MusicPlayerView
 
 #pragma mark 初始化组件\初始化playerListener
 
@@ -55,7 +50,7 @@
 {
     self = [super init];
     if (self) {
-        self.frame = CGRectMake(0, 0, SCREEN_WIDTH, 200);
+        self.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40);
         [self initUI];
     }
     return self;
@@ -70,44 +65,18 @@
 }
 
 - (void)initUI {
-    //播放层
-    self.playerView = [[UIView alloc]init];
-    [self addSubview:self.playerView];
-    self.playerView.backgroundColor = [UIColor blackColor];
-    __weak typeof(self) weakself = self;
-    [self.playerView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(weakself);
-    }];
-    self.controlView = [[UIView alloc]init];
-    [self addSubview:self.controlView];
-    self.controlView.backgroundColor = [UIColor clearColor];
-    [self.controlView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(weakself);
-    }];
     
-    [self initToolBar];
-}
-
-- (void)initToolBar {
-     __weak typeof(self) weakself = self;
-    self.toolBarView = [[UIView alloc]init];
-    self.toolBarView.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.5];
-    [self.controlView addSubview:self.toolBarView];
-    
-    [self.toolBarView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.bottom.right.equalTo(weakself.controlView);
-        make.height.equalTo(@50);
-    }];
-    
+    self.backgroundColor = [UIColor orangeColor];
     self.playButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.playButton setImage:[UIImage imageNamed:@"ico_play"] forState:UIControlStateNormal];
     
     [self.playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.toolBarView addSubview:self.playButton];
+    [self addSubview:self.playButton];
     
+    __weak typeof(self) weakself = self;
     [self.playButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(weakself.toolBarView).offset(5);
-        make.centerY.equalTo(weakself.toolBarView);
+        make.leading.equalTo(weakself).offset(5);
+        make.centerY.equalTo(weakself);
         make.width.mas_equalTo(35);
         make.height.mas_equalTo(35);
     }];
@@ -117,50 +86,35 @@
     self.timeNowLabel.font = [UIFont systemFontOfSize:13];
     self.timeNowLabel.text = @"00:00";
     
-    [self.toolBarView addSubview:self.timeNowLabel];
+    [self addSubview:self.timeNowLabel];
     
     [self.timeNowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(weakself.playButton.mas_trailing).offset(5);
-        make.centerY.equalTo(weakself.toolBarView);
+        make.centerY.equalTo(weakself);
         make.height.mas_equalTo(15);
         make.width.mas_equalTo(37);
     }];
     
-    self.timeSlider = [[MusicSlider alloc] initWithFrame:CGRectMake(87, 0, weakself.frame.size.width - 190, 50)];
-    [self.toolBarView addSubview:self.timeSlider];
+    self.timeSlider = [[ProgressSlider alloc] initWithFrame:CGRectMake(87, 0, weakself.frame.size.width - 142, self.frame.size.height)];
+    [self addSubview:self.timeSlider];
     
-    self.landscapeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.landscapeButton setImage:[UIImage imageNamed:@"fullscreen"] forState:UIControlStateNormal];
-    [self.landscapeButton addTarget:self action:@selector(landscapeButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    [self.toolBarView addSubview:self.landscapeButton];
-    [self.landscapeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.trailing.equalTo(weakself.toolBarView).offset(-13);
-        make.centerY.equalTo(weakself.toolBarView);
-        make.height.mas_equalTo(35);
-        make.width.mas_equalTo(35);
-    }];
     self.timeTotalLabel = [[UILabel alloc]init];
     self.timeTotalLabel.textColor = [UIColor whiteColor];
     self.timeTotalLabel.font = [UIFont systemFontOfSize:13];
     self.timeTotalLabel.text = @"00:00";
-    [self.toolBarView addSubview:self.timeTotalLabel];
+    [self addSubview:self.timeTotalLabel];
     [self.timeTotalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.trailing.equalTo(weakself.landscapeButton.mas_leading).offset(-13);
-        make.centerY.equalTo(weakself.toolBarView);
+        make.trailing.equalTo(weakself).offset(-13);
+        make.centerY.equalTo(weakself);
         make.height.mas_equalTo(15);
         make.width.mas_equalTo(37);
     }];
-
     
     self.timeSlider.delegate = self;
     self.timeSlider.trackBackgoundColor = TrackColor;
     self.timeSlider.playProgressBackgoundImage = [UIImage imageNamed:@"Rectangle"];
     [self.playButton setImage:[UIImage imageNamed:@"ico_play"] forState:UIControlStateNormal];
     self.playerStatus = VedioStatusPause;
-    
-    
-    AppDelegate *delegate = [UIApplication sharedApplication].delegate;
-    delegate.allowRotation = YES;
 }
 
 - (void)setUp:(VedioModel *)model {
@@ -170,12 +124,6 @@
 #pragma mark 初始化播放文件，只允许在播放按钮事件使用
 - (void)initMusic {
     self.player = [[AVPlayer alloc]init];
-    
-    self.playerLayer = [AVPlayerLayer playerLayerWithPlayer:self.player];
-    self.playerLayer.videoGravity = AVLayerVideoGravityResizeAspectFill;
-    self.playerLayer.contentsScale = [UIScreen mainScreen].scale;
-    self.playerLayer.frame = self.frame;
-    [self.playerView.layer addSublayer:self.playerLayer];
     [self initPlayerItem];
     [self addPlayerListener];
 }
@@ -186,7 +134,6 @@
         
         self.playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:self.musicModel.musicURL]];
         [self.player replaceCurrentItemWithPlayerItem:self.playerItem];
-
     }
 }
 
@@ -405,12 +352,6 @@
         [self play];
     }
 }
-//横屏
-- (void)landscapeButtonAction:(id)sender {
-
-    [UIApplication sharedApplication].statusBarOrientation = UIInterfaceOrientationLandscapeLeft;
-
-}
 
 #pragma mark 设置时间轴最大时间
 - (void)setMaxDuratuin:(float)duration{
@@ -424,13 +365,6 @@
     [self destroyPlayer];
     [self removeObserver:self forKeyPath:@"playerStatus"];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
--(void)setFrame:(CGRect)frame {
-    [super setFrame:frame];
-    if (self.playerLayer) {
-        self.playerLayer.frame = CGRectMake(0, 0, frame.size.width, frame.size.height);
-    }
 }
 
 @end

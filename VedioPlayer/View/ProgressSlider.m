@@ -6,7 +6,8 @@
 //  Copyright © 2017年 com.yang. All rights reserved.
 //
 
-#import "MusicSlider.h"
+#import "ProgressSlider.h"
+#import <Masonry/Masonry.h>
 /* 拖动按钮的宽度 */
 #define kBtnWith 14
 
@@ -16,12 +17,14 @@
 #define  kPlayProgressBarHeight 3
 
 
-@implementation MusicSlider{
+@implementation ProgressSlider{
     
     UIView *_bgProgressView;         // 背景颜色
     UIView *_ableBufferProgressView; // 缓冲进度颜色
     UIView *_finishPlayProgressView; // 已经播放的进度颜色
     CGPoint _lastPoint;
+    CGFloat _oldWidth;
+    CGFloat _bufferValue;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -34,31 +37,25 @@
         
         self.backgroundColor = [UIColor clearColor];
         
-        CGFloat showY = (self.frame.size.height - kPlayProgressBarHeight)*0.5;
-        
         /* 背景 */
-        _bgProgressView = [[UIView alloc] initWithFrame:CGRectMake(kBtnWith*0.5, showY, kMyPlayProgressViewWidth, kPlayProgressBarHeight)];
+        _bgProgressView = [[UIView alloc] init];
         _bgProgressView.backgroundColor = [UIColor blackColor];
         [self addSubview:_bgProgressView];
         
         /* 缓存进度 */
-        _ableBufferProgressView = [[UIView alloc] initWithFrame:CGRectMake(kBtnWith*0.5, showY, 0, kPlayProgressBarHeight)];
+        _ableBufferProgressView = [[UIView alloc] init];
         _ableBufferProgressView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
         [self addSubview:_ableBufferProgressView];
         
         /* 播放进度 */
-        _finishPlayProgressView = [[UIView alloc] initWithFrame:CGRectMake(kBtnWith*0.5, showY, 0, kPlayProgressBarHeight)];
+        _finishPlayProgressView = [[UIView alloc] init];
         _finishPlayProgressView.backgroundColor = [UIColor whiteColor];
         [self addSubview:_finishPlayProgressView];
         
         /* 滑动按钮 */
         _sliderBtn.backgroundColor = [UIColor whiteColor];
-        _sliderBtn = [[MusicSliderBtn alloc] initWithFrame:CGRectMake(0, showY, 44, 44)];
-        CGPoint center = _sliderBtn.center;
-        center.x = _bgProgressView.frame.origin.x;
-        center.y = _finishPlayProgressView.center.y;
-        _sliderBtn.center = center;
-        
+        _sliderBtn = [[ProgressSliderBtn alloc] init];
+
         
         [_sliderBtn addTarget:self action:@selector(beiginSliderScrubbing) forControlEvents:UIControlEventTouchDown];
         //        [_sliderBtn addTarget:self action:@selector(endSliderScrubbing) forControlEvents:UIControlEventTouchCancel];
@@ -67,8 +64,37 @@
         [_sliderBtn addTarget:self action:@selector(endSliderScrubbing) forControlEvents:UIControlEventTouchUpOutside];
         _lastPoint = _sliderBtn.center;
         [self addSubview:_sliderBtn];
+        
     }
     return self;
+}
+
+-(void)layoutSubviews {
+    [super layoutSubviews];
+    if (self.frame.size.width != _oldWidth) {
+        CGFloat showY = (self.frame.size.height - kPlayProgressBarHeight)*0.5;
+        
+        /* 背景 */
+        _bgProgressView.frame = CGRectMake(kBtnWith*0.5, showY, kMyPlayProgressViewWidth, kPlayProgressBarHeight);
+        
+        if (_bufferValue > 0) {
+            self.trackValue = _bufferValue;
+        } else {
+            /* 缓存进度 */
+            _ableBufferProgressView.frame = CGRectMake(kBtnWith*0.5, showY, 0, kPlayProgressBarHeight);
+            
+            /* 播放进度 */
+            _finishPlayProgressView.frame = CGRectMake(kBtnWith*0.5, showY, 0, kPlayProgressBarHeight);
+        }
+        
+        /* 滑动按钮 */
+        _sliderBtn.frame = CGRectMake(0, showY, 30, 44);
+        CGPoint center = _sliderBtn.center;
+        center.x = _bgProgressView.frame.origin.x;
+        center.y = _finishPlayProgressView.center.y;
+        _sliderBtn.center = center;
+        _oldWidth = self.frame.size.width;
+    }
 }
 
 - (void)setPlayProgressBackgoundColor:(UIColor *)playProgressBackgoundColor{
@@ -135,7 +161,7 @@
         tempFrame.size.width = tempPoint.x;
         _finishPlayProgressView.frame = tempFrame;
     }
-    
+
 }
 
 /**
@@ -143,6 +169,7 @@
  */
 -(void)setTrackValue:(CGFloat)trackValue{
     _trackValue = trackValue;
+    _bufferValue = _trackValue;
     CGFloat progressValue = _trackValue / _maximumValue;
     if (progressValue>1) {
         progressValue = 1;
@@ -177,13 +204,13 @@
     }
 }
 // 开始拖动
-- (void)beiginSliderScrubbing{
+- (void)beiginSliderScrubbing {
     if (self.delegate) {
         [_delegate beiginSliderScrubbing];
     }
 }
 // 结束拖动
-- (void)endSliderScrubbing{
+- (void)endSliderScrubbing {
     if (self.delegate) {
         [_delegate endSliderScrubbing];
     }
@@ -194,7 +221,7 @@
 /**
  *  为了让拖动按钮变得更大
  */
-@implementation MusicSliderBtn{
+@implementation ProgressSliderBtn{
     UIImageView *_iconImageView;
     UIActivityIndicatorView *_activity;
 }
@@ -213,17 +240,26 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _iconImageView = [[UIImageView alloc] initWithFrame:CGRectMake((self.frame.size.width - kBtnWith)*0.5,0.5*(self.frame.size.height - kBtnWith),kBtnWith, kBtnWith)];
-        _iconImageView.backgroundColor = [UIColor whiteColor];
-        _iconImageView.layer.cornerRadius = _iconImageView.frame.size.height*0.5;
-        _iconImageView.layer.masksToBounds = YES;
+         __weak typeof(self) weakself = self;
+        _iconImageView = [[UIImageView alloc] init];
         [self addSubview:_iconImageView];
+        [_iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(weakself);
+            make.width.height.mas_equalTo(kBtnWith);
+        }];
+        
+        _iconImageView.backgroundColor = [UIColor whiteColor];
+        _iconImageView.layer.cornerRadius = kBtnWith * 0.5;
+        _iconImageView.layer.masksToBounds = YES;
+        
         _activity = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
         CGAffineTransform transform = CGAffineTransformMakeScale(.6f, .6f);
-        _activity.center = CGPointMake(frame.size.height/2.0, frame.size.height/2.0);
         _activity.transform = transform;
         _activity.userInteractionEnabled  = NO;
         [self addSubview:_activity];
+        [_activity mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.equalTo(_iconImageView);
+        }];
     }
     return self;
 }

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "VedioPlayerView.h"
 #import "VedioModel.h"
-#import "MusicSlider.h"
+#import "ProgressSlider.h"
 
 @interface MusicPlayerView : VedioPlayerView
 

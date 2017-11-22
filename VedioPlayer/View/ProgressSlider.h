@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@class MusicSliderBtn;
-@protocol MusicSliderDelegate <NSObject>
+@class ProgressSliderBtn;
+@protocol ProgressSliderDelegate <NSObject>
 // 开始拖动
 - (void)beiginSliderScrubbing;
 // 结束拖动
@@ -20,15 +20,16 @@
 
 @end
 
-@interface MusicSlider : UIView
+@interface ProgressSlider : UIView
 
-@property (nonatomic, weak) id<MusicSliderDelegate> delegate;
+@property (nonatomic, weak) id<ProgressSliderDelegate> delegate;
 
 @property (nonatomic, assign) CGFloat minimumValue;
 @property (nonatomic, assign) CGFloat maximumValue;
 
 @property (nonatomic, assign) CGFloat value;
 @property (nonatomic, assign) CGFloat trackValue;
+@property (nonatomic, assign) BOOL smallActivityView;
 /**
  *  背景颜色：
  playProgressBackgoundColor：播放背景颜色
@@ -43,10 +44,10 @@
 @property (nonatomic, strong) UIImage *trackBackgoundImage;
 @property (nonatomic, strong) UIImage *progressBackgoundImage;
 
-@property (nonatomic, strong) MusicSliderBtn *sliderBtn;
+@property (nonatomic, strong) ProgressSliderBtn *sliderBtn;
 @end
 
-@interface MusicSliderBtn : UIButton
+@interface ProgressSliderBtn : UIButton
 
 - (void)showActivity:(BOOL)show;
 

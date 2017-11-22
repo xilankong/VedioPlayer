@@ -14,22 +14,17 @@
 		6F63BEA11EADA360001E4994 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6F63BE9F1EADA360001E4994 /* Main.storyboard */; };
 		6F63BEA31EADA360001E4994 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6F63BEA21EADA360001E4994 /* Assets.xcassets */; };
 		6F63BEA61EADA360001E4994 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6F63BEA41EADA360001E4994 /* LaunchScreen.storyboard */; };
-		6F9B37451ED969D60071ECD9 /* VedioPlayerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9B37441ED969D60071ECD9 /* VedioPlayerConfig.m */; };
-		6F9B37481ED96A6A0071ECD9 /* VedioPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9B37471ED96A6A0071ECD9 /* VedioPlayerView.m */; };
-		6F9B374C1ED96ACE0071ECD9 /* VedioModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9B374B1ED96ACE0071ECD9 /* VedioModel.m */; };
-		6F9B37501ED96B0C0071ECD9 /* MusicPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9B374F1ED96B0C0071ECD9 /* MusicPlayerView.m */; };
-		6F9B37531ED96B2E0071ECD9 /* MusicSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F9B37521ED96B2E0071ECD9 /* MusicSlider.m */; };
-		6F9B37601ED96E080071ECD9 /* fullscreen@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37551ED96E080071ECD9 /* fullscreen@2x.png */; };
-		6F9B37611ED96E080071ECD9 /* fullscreen2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37561ED96E080071ECD9 /* fullscreen2@2x.png */; };
-		6F9B37621ED96E080071ECD9 /* ico_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37571ED96E080071ECD9 /* ico_play@2x.png */; };
-		6F9B37631ED96E080071ECD9 /* ico_play@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37581ED96E080071ECD9 /* ico_play@3x.png */; };
-		6F9B37641ED96E080071ECD9 /* ico_stop@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B37591ED96E080071ECD9 /* ico_stop@2x.png */; };
-		6F9B37651ED96E080071ECD9 /* ico_stop@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B375A1ED96E080071ECD9 /* ico_stop@3x.png */; };
-		6F9B37661ED96E080071ECD9 /* icon_music_play@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B375B1ED96E080071ECD9 /* icon_music_play@2x.png */; };
-		6F9B37671ED96E080071ECD9 /* icon_music_play@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B375C1ED96E080071ECD9 /* icon_music_play@3x.png */; };
-		6F9B37681ED96E080071ECD9 /* nonfullscreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B375D1ED96E080071ECD9 /* nonfullscreen.png */; };
-		6F9B37691ED96E080071ECD9 /* Rectangle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B375E1ED96E080071ECD9 /* Rectangle@2x.png */; };
-		6F9B376A1ED96E080071ECD9 /* Rectangle@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 6F9B375F1ED96E080071ECD9 /* Rectangle@3x.png */; };
+		6FBE8CDC1FC51543005CE916 /* VedioModel.h in Sources */ = {isa = PBXBuildFile; fileRef = 6FBE8CD81FC51533005CE916 /* VedioModel.h */; };
+		6FBE8CDD1FC51543005CE916 /* VedioModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FBE8CD91FC51533005CE916 /* VedioModel.m */; };
+		6FBE8CDE1FC51543005CE916 /* VedioPlayerConfig.h in Sources */ = {isa = PBXBuildFile; fileRef = 6FBE8CDA1FC51533005CE916 /* VedioPlayerConfig.h */; };
+		6FBE8CDF1FC51543005CE916 /* VedioPlayerConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FBE8CDB1FC51533005CE916 /* VedioPlayerConfig.m */; };
+		6FBE8CE01FC51547005CE916 /* MusicPlayerView.h in Sources */ = {isa = PBXBuildFile; fileRef = 6FBE8CD51FC5152E005CE916 /* MusicPlayerView.h */; };
+		6FBE8CE11FC51547005CE916 /* MusicPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FBE8CD61FC5152E005CE916 /* MusicPlayerView.m */; };
+		6FBE8CE21FC5154B005CE916 /* ProgressSlider.h in Sources */ = {isa = PBXBuildFile; fileRef = 6FBE8CD21FC51529005CE916 /* ProgressSlider.h */; };
+		6FBE8CE31FC5154B005CE916 /* ProgressSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FBE8CD31FC51529005CE916 /* ProgressSlider.m */; };
+		6FBE8CE41FC5154F005CE916 /* VedioPlayerView.h in Sources */ = {isa = PBXBuildFile; fileRef = 6FBE8CCF1FC51525005CE916 /* VedioPlayerView.h */; };
+		6FBE8CE51FC5154F005CE916 /* VedioPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FBE8CD01FC51525005CE916 /* VedioPlayerView.m */; };
+		6FBE8CEB1FC51D8E005CE916 /* VedioPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FBE8CEA1FC51D8E005CE916 /* VedioPlayerViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,27 +40,18 @@
 		6F63BEA21EADA360001E4994 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6F63BEA51EADA360001E4994 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6F63BEA71EADA360001E4994 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		6F9B37431ED969D60071ECD9 /* VedioPlayerConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VedioPlayerConfig.h; sourceTree = "<group>"; };
-		6F9B37441ED969D60071ECD9 /* VedioPlayerConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VedioPlayerConfig.m; sourceTree = "<group>"; };
-		6F9B37461ED96A6A0071ECD9 /* VedioPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VedioPlayerView.h; sourceTree = "<group>"; };
-		6F9B37471ED96A6A0071ECD9 /* VedioPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VedioPlayerView.m; sourceTree = "<group>"; };
-		6F9B374A1ED96ACE0071ECD9 /* VedioModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VedioModel.h; sourceTree = "<group>"; };
-		6F9B374B1ED96ACE0071ECD9 /* VedioModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VedioModel.m; sourceTree = "<group>"; };
-		6F9B374E1ED96B0C0071ECD9 /* MusicPlayerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicPlayerView.h; sourceTree = "<group>"; };
-		6F9B374F1ED96B0C0071ECD9 /* MusicPlayerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicPlayerView.m; sourceTree = "<group>"; };
-		6F9B37511ED96B2E0071ECD9 /* MusicSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicSlider.h; sourceTree = "<group>"; };
-		6F9B37521ED96B2E0071ECD9 /* MusicSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MusicSlider.m; sourceTree = "<group>"; };
-		6F9B37551ED96E080071ECD9 /* fullscreen@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fullscreen@2x.png"; sourceTree = "<group>"; };
-		6F9B37561ED96E080071ECD9 /* fullscreen2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fullscreen2@2x.png"; sourceTree = "<group>"; };
-		6F9B37571ED96E080071ECD9 /* ico_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico_play@2x.png"; sourceTree = "<group>"; };
-		6F9B37581ED96E080071ECD9 /* ico_play@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico_play@3x.png"; sourceTree = "<group>"; };
-		6F9B37591ED96E080071ECD9 /* ico_stop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico_stop@2x.png"; sourceTree = "<group>"; };
-		6F9B375A1ED96E080071ECD9 /* ico_stop@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ico_stop@3x.png"; sourceTree = "<group>"; };
-		6F9B375B1ED96E080071ECD9 /* icon_music_play@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_music_play@2x.png"; sourceTree = "<group>"; };
-		6F9B375C1ED96E080071ECD9 /* icon_music_play@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_music_play@3x.png"; sourceTree = "<group>"; };
-		6F9B375D1ED96E080071ECD9 /* nonfullscreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = nonfullscreen.png; sourceTree = "<group>"; };
-		6F9B375E1ED96E080071ECD9 /* Rectangle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rectangle@2x.png"; sourceTree = "<group>"; };
-		6F9B375F1ED96E080071ECD9 /* Rectangle@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rectangle@3x.png"; sourceTree = "<group>"; };
+		6FBE8CCF1FC51525005CE916 /* VedioPlayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VedioPlayerView.h; sourceTree = "<group>"; };
+		6FBE8CD01FC51525005CE916 /* VedioPlayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VedioPlayerView.m; sourceTree = "<group>"; };
+		6FBE8CD21FC51529005CE916 /* ProgressSlider.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ProgressSlider.h; sourceTree = "<group>"; };
+		6FBE8CD31FC51529005CE916 /* ProgressSlider.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ProgressSlider.m; sourceTree = "<group>"; };
+		6FBE8CD51FC5152E005CE916 /* MusicPlayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MusicPlayerView.h; sourceTree = "<group>"; };
+		6FBE8CD61FC5152E005CE916 /* MusicPlayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusicPlayerView.m; sourceTree = "<group>"; };
+		6FBE8CD81FC51533005CE916 /* VedioModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VedioModel.h; sourceTree = "<group>"; };
+		6FBE8CD91FC51533005CE916 /* VedioModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VedioModel.m; sourceTree = "<group>"; };
+		6FBE8CDA1FC51533005CE916 /* VedioPlayerConfig.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VedioPlayerConfig.h; sourceTree = "<group>"; };
+		6FBE8CDB1FC51533005CE916 /* VedioPlayerConfig.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VedioPlayerConfig.m; sourceTree = "<group>"; };
+		6FBE8CE91FC51D8E005CE916 /* VedioPlayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VedioPlayerViewController.h; sourceTree = "<group>"; };
+		6FBE8CEA1FC51D8E005CE916 /* VedioPlayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VedioPlayerViewController.m; sourceTree = "<group>"; };
 		74A7BF7C4BA970D7B8BD7C47 /* libPods-VedioPlayer.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-VedioPlayer.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -111,8 +97,10 @@
 		6F63BE951EADA360001E4994 /* VedioPlayer */ = {
 			isa = PBXGroup;
 			children = (
-				6F9B37491ED96AAC0071ECD9 /* VedioPlayer */,
-				6F9B374D1ED96AED0071ECD9 /* MusicPlayer */,
+				6FBE8CD71FC51533005CE916 /* Help */,
+				6FBE8CD41FC5152E005CE916 /* Music */,
+				6FBE8CD11FC51529005CE916 /* View */,
+				6FBE8CCE1FC51525005CE916 /* Vedio */,
 				6F63BE991EADA360001E4994 /* AppDelegate.h */,
 				6F63BE9A1EADA360001E4994 /* AppDelegate.m */,
 				6F63BE9C1EADA360001E4994 /* ViewController.h */,
@@ -129,53 +117,50 @@
 		6F63BE961EADA360001E4994 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				6F9B37541ED96E080071ECD9 /* resources */,
 				6F63BE971EADA360001E4994 /* main.m */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		6F9B37491ED96AAC0071ECD9 /* VedioPlayer */ = {
+		6FBE8CCE1FC51525005CE916 /* Vedio */ = {
 			isa = PBXGroup;
 			children = (
-				6F9B37431ED969D60071ECD9 /* VedioPlayerConfig.h */,
-				6F9B37441ED969D60071ECD9 /* VedioPlayerConfig.m */,
-				6F9B37461ED96A6A0071ECD9 /* VedioPlayerView.h */,
-				6F9B37471ED96A6A0071ECD9 /* VedioPlayerView.m */,
-				6F9B374A1ED96ACE0071ECD9 /* VedioModel.h */,
-				6F9B374B1ED96ACE0071ECD9 /* VedioModel.m */,
+				6FBE8CCF1FC51525005CE916 /* VedioPlayerView.h */,
+				6FBE8CD01FC51525005CE916 /* VedioPlayerView.m */,
+				6FBE8CE91FC51D8E005CE916 /* VedioPlayerViewController.h */,
+				6FBE8CEA1FC51D8E005CE916 /* VedioPlayerViewController.m */,
 			);
-			name = VedioPlayer;
+			path = Vedio;
 			sourceTree = "<group>";
 		};
-		6F9B374D1ED96AED0071ECD9 /* MusicPlayer */ = {
+		6FBE8CD11FC51529005CE916 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				6F9B374E1ED96B0C0071ECD9 /* MusicPlayerView.h */,
-				6F9B374F1ED96B0C0071ECD9 /* MusicPlayerView.m */,
-				6F9B37511ED96B2E0071ECD9 /* MusicSlider.h */,
-				6F9B37521ED96B2E0071ECD9 /* MusicSlider.m */,
+				6FBE8CD21FC51529005CE916 /* ProgressSlider.h */,
+				6FBE8CD31FC51529005CE916 /* ProgressSlider.m */,
 			);
-			name = MusicPlayer;
+			path = View;
 			sourceTree = "<group>";
 		};
-		6F9B37541ED96E080071ECD9 /* resources */ = {
+		6FBE8CD41FC5152E005CE916 /* Music */ = {
 			isa = PBXGroup;
 			children = (
-				6F9B37551ED96E080071ECD9 /* fullscreen@2x.png */,
-				6F9B37561ED96E080071ECD9 /* fullscreen2@2x.png */,
-				6F9B37571ED96E080071ECD9 /* ico_play@2x.png */,
-				6F9B37581ED96E080071ECD9 /* ico_play@3x.png */,
-				6F9B37591ED96E080071ECD9 /* ico_stop@2x.png */,
-				6F9B375A1ED96E080071ECD9 /* ico_stop@3x.png */,
-				6F9B375B1ED96E080071ECD9 /* icon_music_play@2x.png */,
-				6F9B375C1ED96E080071ECD9 /* icon_music_play@3x.png */,
-				6F9B375D1ED96E080071ECD9 /* nonfullscreen.png */,
-				6F9B375E1ED96E080071ECD9 /* Rectangle@2x.png */,
-				6F9B375F1ED96E080071ECD9 /* Rectangle@3x.png */,
+				6FBE8CD51FC5152E005CE916 /* MusicPlayerView.h */,
+				6FBE8CD61FC5152E005CE916 /* MusicPlayerView.m */,
 			);
-			path = resources;
-			sourceTree = SOURCE_ROOT;
+			path = Music;
+			sourceTree = "<group>";
+		};
+		6FBE8CD71FC51533005CE916 /* Help */ = {
+			isa = PBXGroup;
+			children = (
+				6FBE8CD81FC51533005CE916 /* VedioModel.h */,
+				6FBE8CD91FC51533005CE916 /* VedioModel.m */,
+				6FBE8CDA1FC51533005CE916 /* VedioPlayerConfig.h */,
+				6FBE8CDB1FC51533005CE916 /* VedioPlayerConfig.m */,
+			);
+			path = Help;
+			sourceTree = "<group>";
 		};
 		971AD2937735303D4200C6FC /* Frameworks */ = {
 			isa = PBXGroup;
@@ -247,20 +232,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6F9B37691ED96E080071ECD9 /* Rectangle@2x.png in Resources */,
-				6F9B37611ED96E080071ECD9 /* fullscreen2@2x.png in Resources */,
-				6F9B37661ED96E080071ECD9 /* icon_music_play@2x.png in Resources */,
-				6F9B37601ED96E080071ECD9 /* fullscreen@2x.png in Resources */,
-				6F9B37621ED96E080071ECD9 /* ico_play@2x.png in Resources */,
-				6F9B37631ED96E080071ECD9 /* ico_play@3x.png in Resources */,
-				6F9B37671ED96E080071ECD9 /* icon_music_play@3x.png in Resources */,
-				6F9B37681ED96E080071ECD9 /* nonfullscreen.png in Resources */,
-				6F9B37641ED96E080071ECD9 /* ico_stop@2x.png in Resources */,
-				6F9B37651ED96E080071ECD9 /* ico_stop@3x.png in Resources */,
 				6F63BEA61EADA360001E4994 /* LaunchScreen.storyboard in Resources */,
 				6F63BEA31EADA360001E4994 /* Assets.xcassets in Resources */,
 				6F63BEA11EADA360001E4994 /* Main.storyboard in Resources */,
-				6F9B376A1ED96E080071ECD9 /* Rectangle@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,12 +293,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6FBE8CE41FC5154F005CE916 /* VedioPlayerView.h in Sources */,
+				6FBE8CE51FC5154F005CE916 /* VedioPlayerView.m in Sources */,
+				6FBE8CE21FC5154B005CE916 /* ProgressSlider.h in Sources */,
+				6FBE8CE31FC5154B005CE916 /* ProgressSlider.m in Sources */,
+				6FBE8CE01FC51547005CE916 /* MusicPlayerView.h in Sources */,
+				6FBE8CEB1FC51D8E005CE916 /* VedioPlayerViewController.m in Sources */,
+				6FBE8CE11FC51547005CE916 /* MusicPlayerView.m in Sources */,
+				6FBE8CDC1FC51543005CE916 /* VedioModel.h in Sources */,
+				6FBE8CDD1FC51543005CE916 /* VedioModel.m in Sources */,
+				6FBE8CDE1FC51543005CE916 /* VedioPlayerConfig.h in Sources */,
+				6FBE8CDF1FC51543005CE916 /* VedioPlayerConfig.m in Sources */,
 				6F63BE9E1EADA360001E4994 /* ViewController.m in Sources */,
-				6F9B37481ED96A6A0071ECD9 /* VedioPlayerView.m in Sources */,
-				6F9B37451ED969D60071ECD9 /* VedioPlayerConfig.m in Sources */,
-				6F9B37501ED96B0C0071ECD9 /* MusicPlayerView.m in Sources */,
-				6F9B37531ED96B2E0071ECD9 /* MusicSlider.m in Sources */,
-				6F9B374C1ED96ACE0071ECD9 /* VedioModel.m in Sources */,
 				6F63BE9B1EADA360001E4994 /* AppDelegate.m in Sources */,
 				6F63BE981EADA360001E4994 /* main.m in Sources */,
 			);

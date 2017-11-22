@@ -14,6 +14,7 @@
 #define TrackColor [UIColor colorWithRed:128/255.0 green:128/255.0 blue:128/255.0 alpha:1.0]
 #define SCREEN_HEIGHT  [UIScreen mainScreen].bounds.size.height
 #define SCREEN_WIDTH   [UIScreen mainScreen].bounds.size.width
+#define toolBarHeight 50.0f
 
 #pragma mark 常用枚举
 
@@ -28,5 +29,6 @@ typedef NS_ENUM(NSUInteger, VedioStatus) {
 @interface VedioPlayerConfig : NSObject
 
 + (NSString *)convertTime:(CGFloat)second;
++ (UIImage *)getThumbnailImage:(NSURL *)videoURL;
 
 @end
