@@ -21,10 +21,10 @@
 @property (nonatomic, assign) CGRect frame;
 
 - (instancetype)initWithFrame:(CGRect)frame;
-- (void)show;
-- (void)dismiss;
 
 - (void)startWithModel:(VedioModel *)model;
+
+- (void)stop;
 
 - (void)changeModel:(VedioModel *)vedioModel;
 @end

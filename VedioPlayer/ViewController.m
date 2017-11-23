@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     VedioModel *model = [[VedioModel alloc]init];
-    model.contentURL = [NSURL URLWithString: @"http://jfz-gxq-public2.oss-cn-hangzhou.aliyuncs.com/m/kepu01.mp4"];
+    model.contentURL = [NSURL URLWithString: @"http://1252828818.vod2.myqcloud.com/9e6670b4vodtransgzp1252828818/5296b7c79031868223419539153/v.f20.mp4"];
 
     self.videoController = [[VedioPlayerViewController alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_WIDTH * (9.0/16.0))];
     __weak typeof(self) weakself = self;
@@ -48,7 +48,7 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)removeAction:(id)sender {
-    [self.playerView removeFromSuperview];
+    [self.videoController stop];
 }
 
 //播放失败的代理方法

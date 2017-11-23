@@ -10,43 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VedioPlayer/Vedio/VedioPlayerViewController.m"
-            timestampString = "533038089.385808"
+            timestampString = "533100713.57923"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "373"
-            endingLineNumber = "373"
-            landmarkName = "-observeValueForKeyPath:ofObject:change:context:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VedioPlayer/Vedio/VedioPlayerViewController.m"
-            timestampString = "533038089.3859"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "413"
-            endingLineNumber = "413"
-            landmarkName = "-observeValueForKeyPath:ofObject:change:context:"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VedioPlayer/Vedio/VedioPlayerViewController.m"
-            timestampString = "533038089.385972"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "193"
-            endingLineNumber = "193"
+            startingLineNumber = "174"
+            endingLineNumber = "174"
             landmarkName = "-onDeviceOrientationChange"
             landmarkType = "7">
          </BreakpointContent>
@@ -58,11 +26,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "VedioPlayer/Vedio/VedioPlayerViewController.m"
-            timestampString = "533038089.386034"
+            timestampString = "533100713.580268"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "267"
-            endingLineNumber = "267"
+            startingLineNumber = "238"
+            endingLineNumber = "238"
             landmarkName = "-setDeviceOrientationLandscapeRight"
             landmarkType = "7">
          </BreakpointContent>
@@ -70,32 +38,16 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "VedioPlayer/View/ProgressSlider.m"
-            timestampString = "533038089.3861"
+            filePath = "VedioPlayer/Vedio/VedioPlayerViewController.m"
+            timestampString = "533100713.581024"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "74"
-            endingLineNumber = "74"
-            landmarkName = "-layoutSubviews"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "VedioPlayer/View/ProgressSlider.m"
-            timestampString = "533038089.386406"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "78"
-            endingLineNumber = "78"
-            landmarkName = "-layoutSubviews"
+            startingLineNumber = "280"
+            endingLineNumber = "280"
+            landmarkName = "-destoryPlayerItem"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

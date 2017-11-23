@@ -57,11 +57,9 @@ static const CGFloat animationTimeinterval = 0.3f;
     self = [super init];
     if (self) {
         self.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, 200);
-        self.view.backgroundColor = [UIColor blackColor];
-        [self.view addSubview:self.videoView];
-        self.videoView.frame = self.view.bounds;
-        self.playerStatus = VedioStatusPause;
-        self.videoView.timeSlider.delegate = self;
+        [self initUI];
+        [self initControlAction];
+        [self addPlayerListener];
     }
     return self;
 }
@@ -71,46 +69,28 @@ static const CGFloat animationTimeinterval = 0.3f;
     self = [super init];
     if (self) {
         self.view.frame = frame;
-        self.view.backgroundColor = [UIColor blackColor];
-        [self.view addSubview:self.videoView];
-        self.videoView.frame = self.view.bounds;
-        self.playerStatus = VedioStatusPause;
-        self.videoView.timeSlider.delegate = self;
-        [self.videoView.playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-        [self.videoView.landscapeButton addTarget:self action:@selector(fullScreenButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        [self initUI];
+        [self initControlAction];
+        [self addPlayerListener];
     }
     return self;
 }
 
-- (void)show
-{
-    UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
-    if (!keyWindow) {
-        keyWindow = [[[UIApplication sharedApplication] windows] firstObject];
-    }
-    [keyWindow addSubview:self.view];
-    self.view.alpha = 0.0;
-    [UIView animateWithDuration:animationTimeinterval animations:^{
-        self.view.alpha = 1.0;
-    } completion:^(BOOL finished) {
-        
-    }];
+- (void)initUI {
+    self.view.backgroundColor = [UIColor blackColor];
+    [self.view addSubview:self.videoView];
+    self.videoView.frame = self.view.bounds;
+    self.videoView.timeSlider.delegate = self;
+    self.playerStatus = VedioStatusPause;
+
 }
 
--(void)dismiss {
-//    [self stopDurationTimer];
-//    [self stop];
-    [UIView animateWithDuration:animationTimeinterval animations:^{
-        self.view.alpha = 0.0;
-    } completion:^(BOOL finished) {
-        [self.view removeFromSuperview];
-        if (self.dimissCompleteBlock) {
-            self.dimissCompleteBlock();
-        }
-    }];
+- (void)initControlAction {
+    [self.videoView.playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    [self.videoView.landscapeButton addTarget:self action:@selector(fullScreenButtonClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
-
+//根据播放内容初始化
 - (void)startWithModel:(VedioModel *)model {
     self.vedioModel = model;
     self.videoView.thumbnailImageView.image = [VedioPlayerConfig getThumbnailImage:model.contentURL];
@@ -120,7 +100,7 @@ static const CGFloat animationTimeinterval = 0.3f;
 #pragma mark 初始化播放文件，只允许在播放按钮事件使用
 - (void)initPlayer {
     [self initPlayerItem];
-    [self addPlayerListener];
+    [self addPlayerItemListener];
 }
 
 //修改playerItem
@@ -128,25 +108,16 @@ static const CGFloat animationTimeinterval = 0.3f;
     if (self.vedioModel && self.vedioModel.contentURL) {
         self.playerItem = [AVPlayerItem playerItemWithURL:self.vedioModel.contentURL];
         [self.videoView.player replaceCurrentItemWithPlayerItem:self.playerItem];
-        
     }
 }
 
-//添加监听文件,所有的监听
+//添加监听
 - (void)addPlayerListener {
-    
     //自定义播放状态监听
     [self addObserver:self forKeyPath:@"playerStatus" options:NSKeyValueObservingOptionNew context:nil];
     if (self.videoView.player) {
         //播放速度监听
         [self.videoView.player addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
-    }
-    
-    if (self.playerItem) {
-        //播放状态监听
-        [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
-        //缓冲进度监听
-        [self.playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
         
         //播放中监听，更新播放进度
         __weak typeof(self) weakSelf = self;
@@ -161,13 +132,15 @@ static const CGFloat animationTimeinterval = 0.3f;
             //拖拽期间不更新数据
             if (!weakSelf.isDragging) {
                 weakSelf.videoView.timeSlider.value = currentPlayTime;
+                if (isnan(currentPlayTime)) {
+                    currentPlayTime = 0;
+                }
                 weakSelf.videoView.timeLabel.text = [NSString stringWithFormat:@"%@/%@",[VedioPlayerConfig convertTime:currentPlayTime],[VedioPlayerConfig convertTime:weakSelf.totalTime]];
             }
         }];
-        
     }
-    
-    //给AVPlayerItem添加播放完成通知
+ 
+    //播放完成通知监听
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
     //监听应用后台切换
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -176,17 +149,25 @@ static const CGFloat animationTimeinterval = 0.3f;
                                                object:nil];
     //播放中被打断
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleInterruption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
-    //拔掉耳机监听？？
     
+    //横竖屏监听
     [[UIDevice currentDevice] beginGeneratingDeviceOrientationNotifications];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(onDeviceOrientationChange)
                                                  name:UIDeviceOrientationDidChangeNotification
-                                               object:nil
-     ];
+                                               object:nil];
 }
 
+- (void)addPlayerItemListener {
+    if (self.playerItem) {
+        //播放状态监听
+        [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+        //缓冲进度监听
+        [self.playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+    }
+}
+
+#pragma mark 屏幕旋转、大小屏幕
 - (void)onDeviceOrientationChange{
     UIDeviceOrientation orientation = [UIDevice currentDevice].orientation;
     UIInterfaceOrientation interfaceOrientation = (UIInterfaceOrientation)orientation;
@@ -230,16 +211,6 @@ static const CGFloat animationTimeinterval = 0.3f;
         
         [self setDeviceOrientationLandscapeRight];
     }
-}
-
-- (void)shrinkScreenButtonClick
-{
-    if (!self.isFullscreenMode) {
-        return;
-    }
-    
-    [self backOrientationPortrait];
-    
 }
 
 //返回小屏幕
@@ -301,25 +272,37 @@ static const CGFloat animationTimeinterval = 0.3f;
 }
 
 //销毁player,无奈之举 因为avplayeritem的制空后依然缓存的问题。
-- (void)destroyPlayer {
+#pragma mark 销毁播放item
+- (void)destoryPlayerItem {
+    [self pause];
     
-    [self.playerItem removeObserver:self forKeyPath:@"status"];
-    [self.playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-    [self.videoView.player removeObserver:self forKeyPath:@"rate"];
-    [self.videoView.player removeTimeObserver:self.timeObserver];
-    
-    self.playerItem = nil;
-    self.videoView.player = nil;
+    if (self.playerItem) {
+        [self.playerItem removeObserver:self forKeyPath:@"status"];
+        [self.playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+        self.playerItem = nil;
+        [self.videoView.player replaceCurrentItemWithPlayerItem:nil];
+    }
     
     self.playerStatus = VedioStatusPause;
     self.videoView.timeSlider.value = 0;
+    self.videoView.timeSlider.trackValue = 0;
     self.videoView.timeLabel.text = [NSString stringWithFormat:@"00:00:00/%@",[VedioPlayerConfig convertTime:_totalTime]];
 }
 
+#pragma mark 销毁所有
+- (void)destroyPlayer {
+    [self destoryPlayerItem];
+
+    [self.videoView.player removeObserver:self forKeyPath:@"rate"];
+    [self.videoView.player removeTimeObserver:self.timeObserver];
+    self.videoView.player = nil;
+}
+
+#pragma mark 变更源
 - (void)changeModel:(VedioModel *)vedioModel {
     if (vedioModel && vedioModel.musicURL) {
         if (self.playerItem && self.videoView.player) {
-            [self destroyPlayer];
+            [self destoryPlayerItem];
             self.vedioModel = vedioModel;
         }
     } else {
@@ -327,10 +310,14 @@ static const CGFloat animationTimeinterval = 0.3f;
     }
 }
 
+- (void)stop {
+    [self destoryPlayerItem];
+}
+
 #pragma mark 播放，暂停
 - (void)play{
     if (self.videoView.player && self.playerStatus == VedioStatusPause) {
-        NSLog(@"通过播放停止");
+        NSLog(@"通过播放开始");
         self.playerStatus = VedioStatusBuffering;
         [self.videoView.player play];
     }
@@ -354,7 +341,7 @@ static const CGFloat animationTimeinterval = 0.3f;
 #pragma mark 播放失败
 -(void)playerFailed{
     NSLog(@"播放失败");
-    [self destroyPlayer];
+    [self destoryPlayerItem];
 }
 
 #pragma mark 播放被打断
@@ -369,7 +356,8 @@ static const CGFloat animationTimeinterval = 0.3f;
 
 #pragma mark 监听捕获
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"status"]) {
+    
+    if ([keyPath isEqualToString:@"status"]) {     //播放状态
         AVPlayerItem *item = (AVPlayerItem *)object;
         if ([self.playerItem status] == AVPlayerStatusReadyToPlay) {
             //获取音频总长度
@@ -377,28 +365,25 @@ static const CGFloat animationTimeinterval = 0.3f;
             [self setMaxDuratuin:CMTimeGetSeconds(duration)];
             NSLog(@"AVPlayerStatusReadyToPlay -- 音频时长%f",CMTimeGetSeconds(duration));
             
-        }else if([self.playerItem status] == AVPlayerStatusFailed) {
+        } else if([self.playerItem status] == AVPlayerStatusFailed) {
             
-            [self playerFailed];
-            NSLog(@"AVPlayerStatusFailed -- 播放异常");
+            [self playerFailed]; //播放异常
             
-        }else if([self.playerItem status] == AVPlayerStatusUnknown) {
-            
-            [self pause];
-            NSLog(@"AVPlayerStatusUnknown -- 未知原因停止");
+        } else if([self.playerItem status] == AVPlayerStatusUnknown) { 
+            [self pause]; //未知原因停止
         }
-    } else if([keyPath isEqualToString:@"loadedTimeRanges"]) {
+    } else if([keyPath isEqualToString:@"loadedTimeRanges"]) { //缓冲进度
         AVPlayerItem *item = (AVPlayerItem *)object;
         NSArray * array = item.loadedTimeRanges;
-        CMTimeRange timeRange = [array.firstObject CMTimeRangeValue]; //本次缓冲的时间范围
-        NSTimeInterval totalBuffer = CMTimeGetSeconds(timeRange.start) + CMTimeGetSeconds(timeRange.duration); //缓冲总长度
+        CMTimeRange timeRange = [array.firstObject CMTimeRangeValue];
+        NSTimeInterval totalBuffer = CMTimeGetSeconds(timeRange.start) + CMTimeGetSeconds(timeRange.duration);
         self.videoView.timeSlider.trackValue = totalBuffer;
         //当缓存到位后开启播放，取消loading
         if (totalBuffer >self.videoView.timeSlider.value && self.playerStatus != VedioStatusPause) {
             [self.videoView.player play];
         }
         NSLog(@"---共缓冲---%.2f",totalBuffer);
-    } else if ([keyPath isEqualToString:@"rate"]){
+    } else if ([keyPath isEqualToString:@"rate"]){ //播放速度
         AVPlayer *item = (AVPlayer *)object;
         if (item.rate == 0) {
             if (self.playerStatus != VedioStatusPause) {
@@ -409,7 +394,7 @@ static const CGFloat animationTimeinterval = 0.3f;
             
         }
         NSLog(@"---播放速度---%f",item.rate);
-    } else if([keyPath isEqualToString:@"playerStatus"]){
+    } else if([keyPath isEqualToString:@"playerStatus"]){ //播放状态
         switch (self.playerStatus) {
             case VedioStatusBuffering:
                 [self.videoView.timeSlider.sliderBtn showActivity:YES];
@@ -460,7 +445,7 @@ static const CGFloat animationTimeinterval = 0.3f;
 
 #pragma mark 播放按钮事件
 - (void)playButtonAction:(id)sender {
-    if (self.videoView.player) {
+    if (self.playerItem) {
         if (self.playerStatus == VedioStatusPause) {
             [self play];
         } else {
@@ -479,6 +464,14 @@ static const CGFloat animationTimeinterval = 0.3f;
     self.videoView.timeLabel.text = [NSString stringWithFormat:@"00:00:00/%@",[VedioPlayerConfig convertTime:duration]];
 }
 
+- (void)setFrame:(CGRect)frame {
+    [self.view setFrame:frame];
+    [self.videoView setFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
+    [self.videoView setNeedsLayout];
+    [self.videoView layoutIfNeeded];
+}
+
+#pragma mark get set
 - (VedioPlayerView *)videoView {
     if (!_videoView) {
         _videoView = [[VedioPlayerView alloc]init];
@@ -493,13 +486,6 @@ static const CGFloat animationTimeinterval = 0.3f;
         _vedioBackgroundView.backgroundColor = [UIColor blackColor];
     }
     return _vedioBackgroundView;
-}
-
-- (void)setFrame:(CGRect)frame {
-    [self.view setFrame:frame];
-    [self.videoView setFrame:CGRectMake(0, 0, frame.size.width, frame.size.height)];
-    [self.videoView setNeedsLayout];
-    [self.videoView layoutIfNeeded];
 }
 
 @end

@@ -24,7 +24,6 @@
     UIView *_finishPlayProgressView; // 已经播放的进度颜色
     CGPoint _lastPoint;
     CGFloat _oldWidth;
-    CGFloat _bufferValue;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -71,29 +70,34 @@
 
 -(void)layoutSubviews {
     [super layoutSubviews];
-    if (self.frame.size.width != _oldWidth) {
-        CGFloat showY = (self.frame.size.height - kPlayProgressBarHeight)*0.5;
-        
+    if (kMyPlayProgressViewWidth != _oldWidth) {
+        CGFloat showY = (self.frame.size.height - kPlayProgressBarHeight) * 0.5;
+        CGFloat scale = kMyPlayProgressViewWidth / _oldWidth;
         /* 背景 */
         _bgProgressView.frame = CGRectMake(kBtnWith*0.5, showY, kMyPlayProgressViewWidth, kPlayProgressBarHeight);
         
-        if (_bufferValue > 0) {
-            self.trackValue = _bufferValue;
+        if (self.trackValue > 0) {
+            _ableBufferProgressView.frame = CGRectMake(kBtnWith*0.5, showY, _ableBufferProgressView.frame.size.width * scale , kPlayProgressBarHeight);
         } else {
             /* 缓存进度 */
             _ableBufferProgressView.frame = CGRectMake(kBtnWith*0.5, showY, 0, kPlayProgressBarHeight);
-            
+        }
+        if (self.value > 0) {
+            /* 播放进度 */
+            _finishPlayProgressView.frame = CGRectMake(kBtnWith*0.5, showY, _finishPlayProgressView.frame.size.width * scale, kPlayProgressBarHeight);
+            _sliderBtn.center = CGPointMake(kBtnWith*0.5 + _finishPlayProgressView.frame.size.width, _sliderBtn.center.y);
+        } else {
             /* 播放进度 */
             _finishPlayProgressView.frame = CGRectMake(kBtnWith*0.5, showY, 0, kPlayProgressBarHeight);
+            /* 滑动按钮 */
+            _sliderBtn.frame = CGRectMake(0, showY, 30, 44);
+            CGPoint center = _sliderBtn.center;
+            center.x = _bgProgressView.frame.origin.x;
+            center.y = _finishPlayProgressView.center.y;
+            _sliderBtn.center = center;
         }
         
-        /* 滑动按钮 */
-        _sliderBtn.frame = CGRectMake(0, showY, 30, 44);
-        CGPoint center = _sliderBtn.center;
-        center.x = _bgProgressView.frame.origin.x;
-        center.y = _finishPlayProgressView.center.y;
-        _sliderBtn.center = center;
-        _oldWidth = self.frame.size.width;
+        _oldWidth = kMyPlayProgressViewWidth;
     }
 }
 
@@ -169,7 +173,6 @@
  */
 -(void)setTrackValue:(CGFloat)trackValue{
     _trackValue = trackValue;
-    _bufferValue = _trackValue;
     CGFloat progressValue = _trackValue / _maximumValue;
     if (progressValue>1) {
         progressValue = 1;
