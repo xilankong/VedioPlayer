@@ -63,7 +63,7 @@
     __weak typeof(self) weakself = self;
     
     self.centerPlayButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.centerPlayButton setImage:[UIImage imageNamed:@"icon-plau-big"] forState:UIControlStateNormal];
+    [self.centerPlayButton setImage:[UIImage imageNamed:@"video-play-big"] forState:UIControlStateNormal];
     [self.controlView addSubview:self.centerPlayButton];
     [self.centerPlayButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.center.equalTo(weakself.controlView);

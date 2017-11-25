@@ -11,10 +11,10 @@
 #import "VedioModel.h"
 #import "ProgressSlider.h"
 
-@interface MusicPlayerView : VedioPlayerView
+@interface MusicPlayerView : UIView
 
-- (void)setUp:(VedioModel *)model;
+- (void)setUpWithModel:(VedioModel *)model;
 
-- (void)changeMusic:(VedioModel *)musicModel;
+- (void)changeMusicWithModel:(VedioModel *)musicModel;
 
 @end

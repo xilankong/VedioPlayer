@@ -21,7 +21,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     VedioModel *model = [[VedioModel alloc]init];
-    model.contentURL = [NSURL URLWithString: @"http://1252828818.vod2.myqcloud.com/9e6670b4vodtransgzp1252828818/5296b7c79031868223419539153/v.f20.mp4"];
+    model.contentURL = [NSURL URLWithString: @"http://1252828818.vod2.myqcloud.com/9e6670b4vodtransgzp1252828818/c9a6ab6a9031868223502985653/v.f20.mp4"];
 
     self.videoController = [[VedioPlayerViewController alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_WIDTH * (9.0/16.0))];
     __weak typeof(self) weakself = self;
@@ -36,10 +36,13 @@
     
     [self.view addSubview:self.videoController.view];
     [self.videoController setUpWithModel:model];
-//    self.playerView = [[MusicPlayerView alloc]initWithFrame:CGRectMake(0, 50, 320, 40)];
-//    self.playerView.delegate = self;
-//    [self.playerView setUp:model];
-//    [self.view addSubview:self.playerView];
+    
+    self.playerView = [[MusicPlayerView alloc]initWithFrame:CGRectMake(0, 250, 320, 40)];
+    [self.playerView setUpWithModel:model];
+    [self.view addSubview:self.playerView];
+    
+    
+    [self.view bringSubviewToFront:self.videoController.view];
 }
 
 

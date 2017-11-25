@@ -10,6 +10,5 @@
 
 @interface VedioModel : NSObject
 
-@property (nonatomic, copy) NSString *musicURL;
 @property (nonatomic, strong) NSURL *contentURL;
 @end

@@ -13,17 +13,20 @@
 
 @property (nonatomic, strong) AVPlayer *player;
 
-@property (nonatomic, strong) AVPlayerItem *playerItem;
-
-@property (nonatomic, strong) ProgressSlider *timeSlider;
-
 @property (nonatomic, strong) UILabel *timeNowLabel;
 
 @property (nonatomic, strong) UILabel *timeTotalLabel;
 
 @property (nonatomic, strong) UIButton *playButton;
 
+@property (nonatomic, strong) ProgressSlider *timeSlider;
 
+@property (nonatomic, strong) AVPlayerItem *playerItem;
+
+//播放状态
+@property (nonatomic, assign) VedioStatus playerStatus;
+//文件模型
+@property (nonatomic, strong) VedioModel *musicModel;
 /*
  * 是否处于seek阶段/seek中间会存在一个不同步问题
  * 所以在seek中间不处理 addPeriodicTimeObserverForInterval
@@ -31,18 +34,21 @@
 @property (nonatomic, assign) BOOL isSeeking;
 //是否拖拽中
 @property (nonatomic, assign) BOOL isDragging;
-//播放状态
-@property (nonatomic, assign) VedioStatus playerStatus;
 //总播放时长
 @property (nonatomic, assign) CGFloat totalTime;
-//文件模型
-@property (nonatomic, strong) VedioModel *musicModel;
 
 @property (nonatomic, strong) id timeObserver;
 @end
 
 
 @implementation MusicPlayerView
+
+- (void)dealloc
+{
+    [self destroyPlayer];
+    [self removeObserver:self forKeyPath:@"playerStatus"];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
 
 #pragma mark 初始化组件\初始化playerListener
 
@@ -68,8 +74,7 @@
     
     self.backgroundColor = [UIColor orangeColor];
     self.playButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.playButton setImage:[UIImage imageNamed:@"ico_play"] forState:UIControlStateNormal];
-    
+    [self.playButton setImage:[UIImage imageNamed:@"video-play"] forState:UIControlStateNormal];
     [self.playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:self.playButton];
     
@@ -84,7 +89,7 @@
     self.timeNowLabel = [[UILabel alloc]init];
     self.timeNowLabel.textColor = [UIColor whiteColor];
     self.timeNowLabel.font = [UIFont systemFontOfSize:13];
-    self.timeNowLabel.text = @"00:00";
+    self.timeNowLabel.text = @"00:00:00";
     
     [self addSubview:self.timeNowLabel];
     
@@ -92,31 +97,30 @@
         make.leading.equalTo(weakself.playButton.mas_trailing).offset(5);
         make.centerY.equalTo(weakself);
         make.height.mas_equalTo(15);
-        make.width.mas_equalTo(37);
+        make.width.mas_equalTo(60);
     }];
     
-    self.timeSlider = [[ProgressSlider alloc] initWithFrame:CGRectMake(87, 0, weakself.frame.size.width - 142, self.frame.size.height)];
+    self.timeSlider = [[ProgressSlider alloc] initWithFrame:CGRectMake(110, 0, weakself.frame.size.width - 188, self.frame.size.height)];
+    self.timeSlider.delegate = self;
     [self addSubview:self.timeSlider];
     
     self.timeTotalLabel = [[UILabel alloc]init];
     self.timeTotalLabel.textColor = [UIColor whiteColor];
     self.timeTotalLabel.font = [UIFont systemFontOfSize:13];
-    self.timeTotalLabel.text = @"00:00";
+    self.timeTotalLabel.text = @"00:00:00";
     [self addSubview:self.timeTotalLabel];
     [self.timeTotalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.trailing.equalTo(weakself).offset(-13);
         make.centerY.equalTo(weakself);
         make.height.mas_equalTo(15);
-        make.width.mas_equalTo(37);
+        make.width.mas_equalTo(60);
     }];
     
-    self.timeSlider.delegate = self;
-    [self.playButton setImage:[UIImage imageNamed:@"ico_play"] forState:UIControlStateNormal];
-    self.playerStatus = VedioStatusPause;
 }
 
-- (void)setUp:(VedioModel *)model {
+- (void)setUpWithModel:(VedioModel *)model {
     self.musicModel = model;
+    [self initMusic];
 }
 
 #pragma mark 初始化播放文件，只允许在播放按钮事件使用
@@ -124,13 +128,14 @@
     self.player = [[AVPlayer alloc]init];
     [self initPlayerItem];
     [self addPlayerListener];
+    [self addPlayerItemListener];
 }
 
 //修改playerItem
 - (void)initPlayerItem {
-    if (self.musicModel && ![self.musicModel.musicURL isEqualToString:@""]) {
+    if (self.musicModel && self.musicModel.contentURL) {
         
-        self.playerItem = [AVPlayerItem playerItemWithURL:[NSURL URLWithString:self.musicModel.musicURL]];
+        self.playerItem = [AVPlayerItem playerItemWithURL:self.musicModel.contentURL];
         [self.player replaceCurrentItemWithPlayerItem:self.playerItem];
     }
 }
@@ -144,28 +149,19 @@
         //播放速度监听
         [self.player addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
     }
-    
-    if (self.playerItem) {
-        //播放状态监听
-        [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
-        //缓冲进度监听
-        [self.playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
-        
-        //播放中监听，更新播放进度
-        __weak typeof(self) weakSelf = self;
-        self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 30) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-            float currentPlayTime = (double)weakSelf.playerItem.currentTime.value/weakSelf.playerItem.currentTime.timescale;
-            if (weakSelf.playerItem.currentTime.value<0) {
-                currentPlayTime = 0.1; //防止出现时间计算越界问题
-            }
-            //拖拽期间不更新数据
-            if (!weakSelf.isDragging) {
-                weakSelf.timeSlider.value = currentPlayTime;
-                weakSelf.timeNowLabel.text = [VedioPlayerConfig convertTime:currentPlayTime];
-            }
-        }];
-        
-    }
+    //播放中监听，更新播放进度
+    __weak typeof(self) weakSelf = self;
+    self.timeObserver = [self.player addPeriodicTimeObserverForInterval:CMTimeMake(1, 30) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
+        float currentPlayTime = (double)weakSelf.playerItem.currentTime.value/weakSelf.playerItem.currentTime.timescale;
+        if (weakSelf.playerItem.currentTime.value<0) {
+            currentPlayTime = 0.1; //防止出现时间计算越界问题
+        }
+        //拖拽期间不更新数据
+        if (!weakSelf.isDragging) {
+            weakSelf.timeSlider.value = currentPlayTime;
+            weakSelf.timeNowLabel.text = [VedioPlayerConfig convertTime:currentPlayTime];
+        }
+    }];
     
     //给AVPlayerItem添加播放完成通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
@@ -176,75 +172,17 @@
                                                object:nil];
     //播放中被打断
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleInterruption:) name:AVAudioSessionInterruptionNotification object:[AVAudioSession sharedInstance]];
-    //拔掉耳机监听？？
+    //拔掉耳机监听
 }
-
-//销毁player,无奈之举 因为avplayeritem的制空后依然缓存的问题。
-- (void)destroyPlayer {
-    
-    [self.playerItem removeObserver:self forKeyPath:@"status"];
-    [self.playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-    [self.player removeObserver:self forKeyPath:@"rate"];
-    [self.player removeTimeObserver:self.timeObserver];
-    
-    self.playerItem = nil;
-    self.player = nil;
-    
-    self.playerStatus = VedioStatusPause;
-    self.timeSlider.value = 0;
-    self.timeNowLabel.text = @"00:00";
-}
-
-- (void)changeMusic:(VedioModel *)musicModel {
-    if (musicModel && ![musicModel.musicURL isEqualToString:@""]) {
-        if (self.playerItem && self.player) {
-            [self destroyPlayer];
-            self.musicModel = musicModel;
-        }
-    } else {
-        [self pause];
+#pragma mark 播放对象监听、缓冲值，播放状态
+- (void)addPlayerItemListener {
+    if (self.playerItem) {
+        //播放状态监听
+        [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+        //缓冲进度监听
+        [self.playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
     }
-}
-
-
-#pragma mark 播放，暂停
-- (void)play{
-    if (self.player && self.playerStatus == VedioStatusPause) {
-        NSLog(@"通过播放停止");
-        self.playerStatus = VedioStatusBuffering;
-        [self.player play];
-    }
-}
-
-- (void)pause{
-    if (self.player && self.playerStatus != VedioStatusPause) {
-        NSLog(@"通过暂停停止");
-        self.playerStatus = VedioStatusPause;
-        [self.player pause];
-    }
-}
-
-#pragma mark 监听播放完成事件
--(void)playerFinished:(NSNotification *)notification{
-    NSLog(@"播放完成");
-    [self.playerItem seekToTime:kCMTimeZero];
-    [self pause];
-}
-
-#pragma mark 播放失败
--(void)playerFailed{
-    NSLog(@"播放失败");
-    [self destroyPlayer];
-}
-
-#pragma mark 播放被打断
-- (void)handleInterruption:(NSNotification *)notification {
-    [self pause];
-}
-
-#pragma mark 进入后台，暂停音频
-- (void)appEnteredBackground {
-    [self pause];
+    
 }
 
 #pragma mark 监听捕获
@@ -295,11 +233,11 @@
                 [self.timeSlider.sliderBtn showActivity:YES];
                 break;
             case VedioStatusPause:
-                [self.playButton setImage:[UIImage imageNamed:@"ico_play"] forState:UIControlStateNormal];
+                [self.playButton setImage:[UIImage imageNamed:@"video-play"] forState:UIControlStateNormal];
                 [self.timeSlider.sliderBtn showActivity:NO];
                 break;
             case VedioStatusPlaying:
-                [self.playButton setImage:[UIImage imageNamed:@"ico_stop"] forState:UIControlStateNormal];
+                [self.playButton setImage:[UIImage imageNamed:@"video-pause"] forState:UIControlStateNormal];
                 [self.timeSlider.sliderBtn showActivity:NO];
                 break;
                 
@@ -307,6 +245,84 @@
                 break;
         }
     }
+}
+
+
+
+//销毁player,无奈之举 因为avplayeritem的制空后依然缓存的问题。
+
+- (void)destroyPlayerItem {
+    if (self.playerItem) {
+        [self.playerItem removeObserver:self forKeyPath:@"status"];
+        [self.playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+        self.playerItem = nil;
+        self.playerStatus = VedioStatusPause;
+        [self.player replaceCurrentItemWithPlayerItem:nil];
+    }
+}
+
+- (void)destroyPlayer {
+
+    [self destroyPlayerItem];
+    [self.player removeObserver:self forKeyPath:@"rate"];
+    [self.player removeTimeObserver:self.timeObserver];
+    
+    self.player = nil;
+    self.timeSlider.value = 0;
+    self.timeSlider.trackValue = 0;
+    self.timeNowLabel.text = @"00:00:00";
+}
+
+- (void)changeMusicWithModel:(VedioModel *)musicModel {
+    if (musicModel && musicModel.contentURL) {
+        if (self.playerItem && self.player) {
+            [self destroyPlayerItem];
+            self.musicModel = musicModel;
+        }
+    } else {
+        [self pause];
+    }
+}
+
+
+#pragma mark 播放，暂停
+- (void)play{
+    if (self.player && self.playerStatus == VedioStatusPause) {
+        NSLog(@"通过播放停止");
+        self.playerStatus = VedioStatusBuffering;
+        [self.player play];
+    }
+}
+
+- (void)pause{
+    if (self.player && self.playerStatus != VedioStatusPause) {
+        NSLog(@"通过暂停停止");
+        self.playerStatus = VedioStatusPause;
+        [self.player pause];
+    }
+}
+
+#pragma mark 监听播放完成事件
+-(void)playerFinished:(NSNotification *)notification{
+    NSLog(@"播放完成");
+    [self.playerItem seekToTime:kCMTimeZero];
+    [self pause];
+}
+
+#pragma mark 播放失败
+-(void)playerFailed{
+    NSLog(@"播放失败");
+    [self destroyPlayer];
+}
+
+#pragma mark 播放被打断
+- (void)handleInterruption:(NSNotification *)notification {
+    [self pause];
+}
+
+#pragma mark 进入后台，暂停音频
+- (void)appEnteredBackground {
+    [self pause];
 }
 
 #pragma mark 监听拖拽事件,拖拽中、拖拽开始、拖拽结束
@@ -358,11 +374,5 @@
     self.timeTotalLabel.text = [VedioPlayerConfig convertTime:duration];
 }
 
-- (void)dealloc
-{
-    [self destroyPlayer];
-    [self removeObserver:self forKeyPath:@"playerStatus"];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 
 @end
