@@ -35,7 +35,7 @@
     };
     
     [self.view addSubview:self.videoController.view];
-    [self.videoController startWithModel:model];
+    [self.videoController setUpWithModel:model];
 //    self.playerView = [[MusicPlayerView alloc]initWithFrame:CGRectMake(0, 50, 320, 40)];
 //    self.playerView.delegate = self;
 //    [self.playerView setUp:model];

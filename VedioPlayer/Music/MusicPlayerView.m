@@ -111,8 +111,6 @@
     }];
     
     self.timeSlider.delegate = self;
-    self.timeSlider.trackBackgoundColor = TrackColor;
-    self.timeSlider.playProgressBackgoundImage = [UIImage imageNamed:@"Rectangle"];
     [self.playButton setImage:[UIImage imageNamed:@"ico_play"] forState:UIControlStateNormal];
     self.playerStatus = VedioStatusPause;
 }

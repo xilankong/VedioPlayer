@@ -38,23 +38,23 @@
         
         /* 背景 */
         _bgProgressView = [[UIView alloc] init];
-        _bgProgressView.backgroundColor = [UIColor blackColor];
+        _bgProgressView.backgroundColor = sliderBackgoundColor;
         [self addSubview:_bgProgressView];
         
         /* 缓存进度 */
         _ableBufferProgressView = [[UIView alloc] init];
-        _ableBufferProgressView.backgroundColor = [UIColor colorWithWhite:1.0 alpha:0.5];
+        _ableBufferProgressView.backgroundColor = bufferProgressColor;
         [self addSubview:_ableBufferProgressView];
         
         /* 播放进度 */
         _finishPlayProgressView = [[UIView alloc] init];
-        _finishPlayProgressView.backgroundColor = [UIColor whiteColor];
+        _finishPlayProgressView.backgroundColor = playProgressColor;
         [self addSubview:_finishPlayProgressView];
         
         /* 滑动按钮 */
         _sliderBtn.backgroundColor = [UIColor whiteColor];
         _sliderBtn = [[ProgressSliderBtn alloc] init];
-
+        
         
         [_sliderBtn addTarget:self action:@selector(beiginSliderScrubbing) forControlEvents:UIControlEventTouchDown];
         //        [_sliderBtn addTarget:self action:@selector(endSliderScrubbing) forControlEvents:UIControlEventTouchCancel];
@@ -101,46 +101,6 @@
     }
 }
 
-- (void)setPlayProgressBackgoundColor:(UIColor *)playProgressBackgoundColor{
-    if (_playProgressBackgoundColor != playProgressBackgoundColor) {
-        _finishPlayProgressView.backgroundColor = playProgressBackgoundColor;
-    }
-}
-
-- (void)setTrackBackgoundColor:(UIColor *)trackBackgoundColor{
-    if (_trackBackgoundColor != trackBackgoundColor) {
-        _ableBufferProgressView.backgroundColor = trackBackgoundColor;
-    }
-}
-
-- (void)setProgressBackgoundColor:(UIColor *)progressBackgoundColor{
-    if (_progressBackgoundColor != progressBackgoundColor) {
-        _bgProgressView.backgroundColor = progressBackgoundColor;
-    }
-}
-
-- (void)setPlayProgressBackgoundImage:(UIImage *)playProgressBackgoundImage {
-    
-    UIImageView *imageView = [[UIImageView alloc]initWithImage:playProgressBackgoundImage];
-    imageView.frame = CGRectMake(0, 0, kMyPlayProgressViewWidth, kPlayProgressBarHeight);
-    [_finishPlayProgressView addSubview:imageView];
-    _finishPlayProgressView.layer.masksToBounds = YES;
-}
-
-- (void)setTrackBackgoundImage:(UIImage *)trackBackgoundImage {
-    UIImageView *imageView = [[UIImageView alloc]initWithImage:trackBackgoundImage];
-    imageView.frame = CGRectMake(0, 0, kMyPlayProgressViewWidth, kPlayProgressBarHeight);
-    [_ableBufferProgressView addSubview:imageView];
-    _ableBufferProgressView.layer.masksToBounds = YES;
-}
-
-- (void)setProgressBackgoundImage:(UIImage *)progressBackgoundImage {
-    UIImageView *imageView = [[UIImageView alloc]initWithImage:progressBackgoundImage];
-    imageView.frame = CGRectMake(0, 0, kMyPlayProgressViewWidth, kPlayProgressBarHeight);
-    [_bgProgressView addSubview:imageView];
-    _bgProgressView.layer.masksToBounds = YES;
-}
-
 /**
  进度值
  */
@@ -165,7 +125,7 @@
         tempFrame.size.width = tempPoint.x;
         _finishPlayProgressView.frame = tempFrame;
     }
-
+    
 }
 
 /**
@@ -220,7 +180,6 @@
 }
 @end
 
-
 /**
  *  为了让拖动按钮变得更大
  */
@@ -243,7 +202,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-         __weak typeof(self) weakself = self;
+        __weak typeof(self) weakself = self;
         _iconImageView = [[UIImageView alloc] init];
         [self addSubview:_iconImageView];
         [_iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -268,3 +227,4 @@
 }
 
 @end
+

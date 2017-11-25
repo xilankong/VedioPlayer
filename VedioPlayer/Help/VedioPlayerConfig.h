@@ -11,19 +11,23 @@
 
 @class VedioMusicPlayerView;
 
-#define TrackColor [UIColor colorWithRed:128/255.0 green:128/255.0 blue:128/255.0 alpha:1.0]
+
+#define playProgressColor [UIColor whiteColor]
+#define bufferProgressColor [[UIColor whiteColor]colorWithAlphaComponent:0.5]
+#define sliderBackgoundColor [[UIColor whiteColor]colorWithAlphaComponent:0.2]
+#define toolBarHeight 50.0f
 #define SCREEN_HEIGHT  [UIScreen mainScreen].bounds.size.height
 #define SCREEN_WIDTH   [UIScreen mainScreen].bounds.size.width
-#define toolBarHeight 50.0f
+
 
 #pragma mark 常用枚举
 
 typedef NS_ENUM(NSUInteger, VedioStatus) {
-    VedioStatusFailed,        // 播放失败
-    VedioStatusBuffering,     // 缓冲中
+    VedioStatusPause,       // 暂停播放
     VedioStatusPlaying,       // 播放中
+    VedioStatusBuffering,     // 缓冲中
     VedioStatusFinished,       //停止播放
-    VedioStatusPause       // 暂停播放
+    VedioStatusFailed        // 播放失败
 };
 
 @interface VedioPlayerConfig : NSObject

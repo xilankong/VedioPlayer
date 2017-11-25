@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import "VedioPlayerConfig.h"
 
 @class ProgressSliderBtn;
 @protocol ProgressSliderDelegate <NSObject>
@@ -30,19 +31,6 @@
 @property (nonatomic, assign) CGFloat value;
 @property (nonatomic, assign) CGFloat trackValue;
 @property (nonatomic, assign) BOOL smallActivityView;
-/**
- *  背景颜色：
- playProgressBackgoundColor：播放背景颜色
- trackBackgoundColor ： 缓存条背景颜色
- progressBackgoundColor ： 整个bar背景颜色
- */
-@property (nonatomic, strong) UIColor *playProgressBackgoundColor;
-@property (nonatomic, strong) UIColor *trackBackgoundColor;
-@property (nonatomic, strong) UIColor *progressBackgoundColor;
-
-@property (nonatomic, strong) UIImage *playProgressBackgoundImage;
-@property (nonatomic, strong) UIImage *trackBackgoundImage;
-@property (nonatomic, strong) UIImage *progressBackgoundImage;
 
 @property (nonatomic, strong) ProgressSliderBtn *sliderBtn;
 @end
@@ -52,3 +40,4 @@
 - (void)showActivity:(BOOL)show;
 
 @end
+

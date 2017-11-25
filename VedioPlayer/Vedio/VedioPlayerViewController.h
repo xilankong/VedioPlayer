@@ -13,18 +13,23 @@
 
 /** videoPlayerView 消失 */
 @property (nonatomic, copy)void(^dimissCompleteBlock)(void);
-/** 进入最小化状态 */
+/** 将要进入最小化状态 */
 @property (nonatomic, copy)void(^willChangeToSmallscreenMode)(void);
-/** 进入全屏状态 */
+/** 将要全屏状态 */
 @property (nonatomic, copy)void(^willChangeToFullscreenMode)(void);
+/** 进入最小化状态 */
+@property (nonatomic, copy)void(^didChangeToSmallscreenMode)(void);
+/** 进入全屏状态 */
+@property (nonatomic, copy)void(^didChangeToFullscreenMode)(void);
 
 @property (nonatomic, assign) CGRect frame;
 
 - (instancetype)initWithFrame:(CGRect)frame;
 
-- (void)startWithModel:(VedioModel *)model;
+- (void)setUpWithModel:(VedioModel *)model;
 
 - (void)stop;
 
 - (void)changeModel:(VedioModel *)vedioModel;
 @end
+

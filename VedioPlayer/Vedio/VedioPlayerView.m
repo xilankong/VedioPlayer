@@ -12,7 +12,6 @@
 
 @interface VedioPlayerView ()
 
-@property (nonatomic, strong) UIView *controlView;
 
 @end
 
@@ -35,7 +34,7 @@
 
 - (void)initUI {
     //播放层放置在self.layer
-
+    
     __weak typeof(self) weakself = self;
     
     self.player = [[AVPlayer alloc]init];
@@ -56,11 +55,25 @@
         make.edges.equalTo(weakself);
     }];
     
+    [self initCenterControlView];
     [self initToolBar];
 }
 
+- (void)initCenterControlView {
+    __weak typeof(self) weakself = self;
+    
+    self.centerPlayButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    [self.centerPlayButton setImage:[UIImage imageNamed:@"icon-plau-big"] forState:UIControlStateNormal];
+    [self.controlView addSubview:self.centerPlayButton];
+    [self.centerPlayButton mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.center.equalTo(weakself.controlView);
+        make.width.height.mas_equalTo(50);
+    }];
+    
+}
+
 - (void)initToolBar {
-     __weak typeof(self) weakself = self;
+    __weak typeof(self) weakself = self;
     self.toolBarView = [[UIView alloc]init];
     self.toolBarView.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.5];
     [self.controlView addSubview:self.toolBarView];
@@ -72,14 +85,13 @@
     
     self.playButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [self.playButton setImage:[UIImage imageNamed:@"video-play"] forState:UIControlStateNormal];
-
+    
     [self.toolBarView addSubview:self.playButton];
     
     [self.playButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(weakself.toolBarView).offset(5);
+        make.leading.top.bottom.equalTo(weakself.toolBarView);
         make.centerY.equalTo(weakself.toolBarView);
         make.width.mas_equalTo(35);
-        make.height.mas_equalTo(35);
     }];
     
     self.timeSlider = [[ProgressSlider alloc] init];
@@ -108,18 +120,14 @@
         make.height.mas_equalTo(15);
         make.width.mas_equalTo(110);
     }];
-
+    
     [self.landscapeButton mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.trailing.equalTo(weakself.toolBarView).offset(-5);
+        make.trailing.top.bottom.equalTo(weakself.toolBarView);
         make.centerY.equalTo(weakself.toolBarView);
-        make.height.mas_equalTo(35);
         make.width.mas_equalTo(35);
     }];
-
-    self.timeSlider.trackBackgoundColor = [[UIColor whiteColor]colorWithAlphaComponent:0.5];
-    self.timeSlider.progressBackgoundColor = [[UIColor whiteColor]colorWithAlphaComponent:0.2];
-    self.timeSlider.playProgressBackgoundColor = [UIColor whiteColor];
 }
 
 
 @end
+
