@@ -126,10 +126,10 @@ static const CGFloat animationTimeinterval = 0.3f;
 #pragma mark 播放速度、播放状态、播放进度、后台等用户操作、横竖屏监听
 - (void)addPlayerListener {
     //自定义播放状态监听
-    [self addObserver:self forKeyPath:@"playerStatus" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"playerStatus" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
     if (self.videoView.player) {
         //播放速度监听
-        [self.videoView.player addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
+        [self.videoView.player addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
         
         //播放中监听，更新播放进度
         __weak typeof(self) weakSelf = self;
@@ -174,9 +174,9 @@ static const CGFloat animationTimeinterval = 0.3f;
 - (void)addPlayerItemListener {
     if (self.playerItem) {
         //播放状态监听
-        [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+        [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
         //缓冲进度监听
-        [self.playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+        [self.playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
     }
 }
 
