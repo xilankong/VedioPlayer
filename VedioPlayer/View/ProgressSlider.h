@@ -11,6 +11,7 @@
 #import "VedioPlayerConfig.h"
 
 @class ProgressSliderBtn;
+
 @protocol ProgressSliderDelegate <NSObject>
 // 开始拖动
 - (void)beiginSliderScrubbing;
@@ -25,19 +26,18 @@
 
 @property (nonatomic, weak) id<ProgressSliderDelegate> delegate;
 
+@property (nonatomic, assign) CGFloat value;
+@property (nonatomic, assign) CGFloat bufferValue;
 @property (nonatomic, assign) CGFloat minimumValue;
 @property (nonatomic, assign) CGFloat maximumValue;
+@property (nonatomic, assign) CGFloat sliderDotDiameter;
 
-@property (nonatomic, assign) CGFloat value;
-@property (nonatomic, assign) CGFloat trackValue;
-@property (nonatomic, assign) BOOL smallActivityView;
+@property (nonatomic, assign) BOOL disabled;
 
-@property (nonatomic, strong) ProgressSliderBtn *sliderBtn;
-@end
-
-@interface ProgressSliderBtn : UIButton
+@property (nonatomic, strong) UIColor *playProgressColor;
+@property (nonatomic, strong) UIColor *bufferProgressColor;
+@property (nonatomic, strong) UIColor *sliderBackgoundColor;
 
 - (void)showActivity:(BOOL)show;
 
 @end
-

@@ -13,15 +13,12 @@
 
 #pragma mark 时间转换工具
 + (NSString *)convertTime:(CGFloat)second{
-    if (second == 0) {
-        return @"00:00:00";
-    }
     NSDate *d = [NSDate dateWithTimeIntervalSince1970:second];
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     if (second/3600 >= 1) {
         [formatter setDateFormat:@"HH:mm:ss"];
     } else {
-        [formatter setDateFormat:@"HH:mm:ss"];
+        [formatter setDateFormat:@"mm:ss"];
     }
     [formatter setTimeZone:[NSTimeZone timeZoneWithAbbreviation:@"UTC"]];
     NSString *showtimeNew = [formatter stringFromDate:d];

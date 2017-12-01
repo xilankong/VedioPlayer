@@ -9,184 +9,23 @@
 #import "ProgressSlider.h"
 #import <Masonry/Masonry.h>
 /* 拖动按钮的宽度 */
-#define kBtnWith 14
+#define btnWith 10
 
 /* 整个bar的宽度 */
-#define kMyPlayProgressViewWidth (self.frame.size.width - (kBtnWith*0.5)*2)
+#define playProgressViewWidth (self.frame.size.width - (btnWith * 0.5) * 2)
 /* slider 的高度 */
-#define  kPlayProgressBarHeight 3
+#define  playProgressBarHeight 2
 
+@interface ProgressSliderBtn : UIButton
 
-@implementation ProgressSlider{
-    
-    UIView *_bgProgressView;         // 背景颜色
-    UIView *_ableBufferProgressView; // 缓冲进度颜色
-    UIView *_finishPlayProgressView; // 已经播放的进度颜色
-    CGPoint _lastPoint;
-    CGFloat _oldWidth;
-}
+@property(nonatomic, strong) UIImageView *iconImageView;
+@property(nonatomic, strong) UIActivityIndicatorView *activity;
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        
-        _minimumValue = 0.f;
-        _maximumValue = 1.f;
-        
-        self.backgroundColor = [UIColor clearColor];
-        
-        /* 背景 */
-        _bgProgressView = [[UIView alloc] init];
-        _bgProgressView.backgroundColor = sliderBackgoundColor;
-        [self addSubview:_bgProgressView];
-        
-        /* 缓存进度 */
-        _ableBufferProgressView = [[UIView alloc] init];
-        _ableBufferProgressView.backgroundColor = bufferProgressColor;
-        [self addSubview:_ableBufferProgressView];
-        
-        /* 播放进度 */
-        _finishPlayProgressView = [[UIView alloc] init];
-        _finishPlayProgressView.backgroundColor = playProgressColor;
-        [self addSubview:_finishPlayProgressView];
-        
-        /* 滑动按钮 */
-        _sliderBtn.backgroundColor = [UIColor whiteColor];
-        _sliderBtn = [[ProgressSliderBtn alloc] init];
-        
-        
-        [_sliderBtn addTarget:self action:@selector(beiginSliderScrubbing) forControlEvents:UIControlEventTouchDown];
-        //        [_sliderBtn addTarget:self action:@selector(endSliderScrubbing) forControlEvents:UIControlEventTouchCancel];
-        [_sliderBtn addTarget:self action:@selector(dragMoving:withEvent:) forControlEvents:UIControlEventTouchDragInside];
-        [_sliderBtn addTarget:self action:@selector(endSliderScrubbing) forControlEvents:UIControlEventTouchUpInside];
-        [_sliderBtn addTarget:self action:@selector(endSliderScrubbing) forControlEvents:UIControlEventTouchUpOutside];
-        _lastPoint = _sliderBtn.center;
-        [self addSubview:_sliderBtn];
-        
-    }
-    return self;
-}
+- (void)showActivity:(BOOL)show;
 
--(void)layoutSubviews {
-    [super layoutSubviews];
-    if (kMyPlayProgressViewWidth != _oldWidth) {
-        CGFloat showY = (self.frame.size.height - kPlayProgressBarHeight) * 0.5;
-        CGFloat scale = kMyPlayProgressViewWidth / _oldWidth;
-        /* 背景 */
-        _bgProgressView.frame = CGRectMake(kBtnWith*0.5, showY, kMyPlayProgressViewWidth, kPlayProgressBarHeight);
-        
-        if (self.trackValue > 0) {
-            _ableBufferProgressView.frame = CGRectMake(kBtnWith*0.5, showY, _ableBufferProgressView.frame.size.width * scale , kPlayProgressBarHeight);
-        } else {
-            /* 缓存进度 */
-            _ableBufferProgressView.frame = CGRectMake(kBtnWith*0.5, showY, 0, kPlayProgressBarHeight);
-        }
-        if (self.value > 0) {
-            /* 播放进度 */
-            _finishPlayProgressView.frame = CGRectMake(kBtnWith*0.5, showY, _finishPlayProgressView.frame.size.width * scale, kPlayProgressBarHeight);
-            _sliderBtn.center = CGPointMake(kBtnWith*0.5 + _finishPlayProgressView.frame.size.width, _sliderBtn.center.y);
-        } else {
-            /* 播放进度 */
-            _finishPlayProgressView.frame = CGRectMake(kBtnWith*0.5, showY, 0, kPlayProgressBarHeight);
-            /* 滑动按钮 */
-            _sliderBtn.frame = CGRectMake(0, showY, 30, 44);
-            CGPoint center = _sliderBtn.center;
-            center.x = _bgProgressView.frame.origin.x;
-            center.y = _finishPlayProgressView.center.y;
-            _sliderBtn.center = center;
-        }
-        
-        _oldWidth = kMyPlayProgressViewWidth;
-    }
-}
-
-/**
- 进度值
- */
-- (void)setValue:(CGFloat)value{
-    
-    _value = value;
-    CGFloat progressValue = value / _maximumValue;
-    if (progressValue>1) {
-        progressValue = 1;
-    }
-    CGFloat finishValue = _bgProgressView.frame.size.width * progressValue;
-    CGPoint tempPoint = _sliderBtn.center;
-    tempPoint.x =  _bgProgressView.frame.origin.x + finishValue;
-    
-    if (tempPoint.x >= _bgProgressView.frame.origin.x &&
-        tempPoint.x <= (self.frame.size.width - (kBtnWith*0.5))){
-        
-        _sliderBtn.center = tempPoint;
-        _lastPoint = _sliderBtn.center;
-        
-        CGRect tempFrame = _finishPlayProgressView.frame;
-        tempFrame.size.width = tempPoint.x;
-        _finishPlayProgressView.frame = tempFrame;
-    }
-    
-}
-
-/**
- 设置缓冲进度值
- */
--(void)setTrackValue:(CGFloat)trackValue{
-    _trackValue = trackValue;
-    CGFloat progressValue = _trackValue / _maximumValue;
-    if (progressValue>1) {
-        progressValue = 1;
-    }
-    CGFloat finishValue = _bgProgressView.frame.size.width * progressValue;
-    
-    CGRect tempFrame = _ableBufferProgressView.frame;
-    tempFrame.size.width = finishValue;
-    _ableBufferProgressView.frame = tempFrame;
-}
-
-/**
- 拖动值发生改变
- */
-- (void)dragMoving: (UIButton *)btn withEvent:(UIEvent *)event{
-    
-    CGPoint point = [[[event allTouches] anyObject] locationInView:self];
-    CGFloat offsetX = point.x - _lastPoint.x;
-    CGPoint tempPoint = CGPointMake(btn.center.x + offsetX, btn.center.y);
-    
-    // 得到进度值
-    CGFloat progressValue = (tempPoint.x - _bgProgressView.frame.origin.x)*1.0f/_bgProgressView.frame.size.width;
-    if (progressValue<0) {
-        progressValue = 0;
-    }
-    if (progressValue > 1) {
-        progressValue = 1;
-    }
-    [self setValue:progressValue*_maximumValue];
-    if (self.delegate) {
-        [_delegate sliderScrubbing];
-    }
-}
-// 开始拖动
-- (void)beiginSliderScrubbing {
-    if (self.delegate) {
-        [_delegate beiginSliderScrubbing];
-    }
-}
-// 结束拖动
-- (void)endSliderScrubbing {
-    if (self.delegate) {
-        [_delegate endSliderScrubbing];
-    }
-}
 @end
 
-/**
- *  为了让拖动按钮变得更大
- */
-@implementation ProgressSliderBtn{
-    UIImageView *_iconImageView;
-    UIActivityIndicatorView *_activity;
-}
+@implementation ProgressSliderBtn
 
 - (void)showActivity:(BOOL)show {
     if (show) {
@@ -207,15 +46,15 @@
         [self addSubview:_iconImageView];
         [_iconImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.center.equalTo(weakself);
-            make.width.height.mas_equalTo(kBtnWith);
+            make.width.height.mas_equalTo(btnWith);
         }];
         
         _iconImageView.backgroundColor = [UIColor whiteColor];
-        _iconImageView.layer.cornerRadius = kBtnWith * 0.5;
+        _iconImageView.layer.cornerRadius = btnWith * 0.5;
         _iconImageView.layer.masksToBounds = YES;
         
         _activity = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
-        CGAffineTransform transform = CGAffineTransformMakeScale(.6f, .6f);
+        CGAffineTransform transform = CGAffineTransformMakeScale(.4f, .4f);
         _activity.transform = transform;
         _activity.userInteractionEnabled  = NO;
         [self addSubview:_activity];
@@ -228,3 +67,202 @@
 
 @end
 
+@interface ProgressSlider()
+
+@property (nonatomic, assign) CGPoint lastPoint;
+@property (nonatomic, assign) CGFloat oldWidth;
+@property (nonatomic, strong) UIView *sliderBackgroundView;         // 背景颜色
+@property (nonatomic, strong) UIView *bufferProgressView; // 缓冲进度颜色
+@property (nonatomic, strong) UIView *playProgressView; // 已经播放的进度颜色
+
+@property (nonatomic, strong) ProgressSliderBtn *sliderBtn;
+
+@end
+
+@implementation ProgressSlider
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        
+        _minimumValue = 0.f;
+        _maximumValue = 1.f;
+        
+        self.backgroundColor = [UIColor clearColor];
+        
+        /* 背景 */
+        _sliderBackgroundView = [[UIView alloc] init];
+        _sliderBackgroundView.backgroundColor = default_sliderBackgoundColor;
+        [self addSubview:_sliderBackgroundView];
+        
+        /* 缓存进度 */
+        _bufferProgressView = [[UIView alloc] init];
+        _bufferProgressView.backgroundColor = default_bufferProgressColor;
+        [self addSubview:_bufferProgressView];
+        
+        /* 播放进度 */
+        _playProgressView = [[UIView alloc] init];
+        _playProgressView.backgroundColor = default_playProgressColor;
+        [self addSubview:_playProgressView];
+        
+        /* 滑动按钮 */
+        _sliderBtn.backgroundColor = [UIColor whiteColor];
+        _sliderBtn = [[ProgressSliderBtn alloc] init];
+        
+        
+        [_sliderBtn addTarget:self action:@selector(beiginSliderScrubbing) forControlEvents:UIControlEventTouchDown];
+        //        [_sliderBtn addTarget:self action:@selector(endSliderScrubbing) forControlEvents:UIControlEventTouchCancel];
+        [_sliderBtn addTarget:self action:@selector(dragMoving:withEvent:) forControlEvents:UIControlEventTouchDragInside];
+        [_sliderBtn addTarget:self action:@selector(endSliderScrubbing) forControlEvents:UIControlEventTouchUpInside];
+        [_sliderBtn addTarget:self action:@selector(endSliderScrubbing) forControlEvents:UIControlEventTouchUpOutside];
+        _lastPoint = _sliderBtn.center;
+        [self addSubview:_sliderBtn];
+        
+    }
+    return self;
+}
+
+-(void)layoutSubviews {
+    [super layoutSubviews];
+    if (playProgressViewWidth != _oldWidth) {
+        CGFloat showY = (self.frame.size.height - playProgressBarHeight) * 0.5;
+        CGFloat scale = playProgressViewWidth / _oldWidth;
+        /* 背景 */
+        _sliderBackgroundView.frame = CGRectMake(btnWith*0.5, showY, playProgressViewWidth, playProgressBarHeight);
+        
+        if (self.bufferValue > 0) {
+            _bufferProgressView.frame = CGRectMake(btnWith*0.5, showY, _bufferProgressView.frame.size.width * scale , playProgressBarHeight);
+        } else {
+            /* 缓存进度 */
+            _bufferProgressView.frame = CGRectMake(btnWith*0.5, showY, 0, playProgressBarHeight);
+        }
+        if (self.value > 0) {
+            /* 播放进度 */
+            _playProgressView.frame = CGRectMake(btnWith*0.5, showY, _playProgressView.frame.size.width * scale, playProgressBarHeight);
+            _sliderBtn.center = CGPointMake(btnWith*0.5 + _playProgressView.frame.size.width, _sliderBtn.center.y);
+        } else {
+            /* 播放进度 */
+            _playProgressView.frame = CGRectMake(btnWith*0.5, showY, 0, playProgressBarHeight);
+            /* 滑动按钮 */
+            _sliderBtn.frame = CGRectMake(0, showY, 30, self.frame.size.height);
+            CGPoint center = _sliderBtn.center;
+            center.x = _sliderBackgroundView.frame.origin.x;
+            center.y = _playProgressView.center.y;
+            _sliderBtn.center = center;
+        }
+        
+        _oldWidth = playProgressViewWidth;
+    }
+}
+
+#pragma mark 进度
+- (void)setValue:(CGFloat)value{
+    _value = value;
+    CGFloat progressValue = value / _maximumValue;
+    if (progressValue>1) {
+        progressValue = 1;
+    }
+    CGFloat finishValue = _sliderBackgroundView.frame.size.width * progressValue;
+    CGPoint tempPoint = _sliderBtn.center;
+    tempPoint.x =  _sliderBackgroundView.frame.origin.x + finishValue;
+    
+    if (tempPoint.x >= _sliderBackgroundView.frame.origin.x &&
+        tempPoint.x <= (self.frame.size.width - (btnWith*0.5))){
+        
+        _sliderBtn.center = tempPoint;
+        _lastPoint = _sliderBtn.center;
+        
+        CGRect tempFrame = _playProgressView.frame;
+        tempFrame.size.width = tempPoint.x - (btnWith*0.5);
+        _playProgressView.frame = tempFrame;
+    }
+}
+
+#pragma mark 缓冲进度
+-(void)setBufferValue:(CGFloat)bufferValue{
+    _bufferValue = bufferValue;
+    CGFloat progressValue = _bufferValue / _maximumValue;
+    if (progressValue>1) {
+        progressValue = 1;
+    }
+    CGFloat finishValue = _sliderBackgroundView.frame.size.width * progressValue;
+    
+    CGRect tempFrame = _bufferProgressView.frame;
+    tempFrame.size.width = finishValue;
+    _bufferProgressView.frame = tempFrame;
+}
+
+#pragma mark 拖动值发生改变
+- (void)dragMoving: (UIButton *)btn withEvent:(UIEvent *)event{
+    if (self.disabled) {
+        return;
+    }
+    CGPoint point = [[[event allTouches] anyObject] locationInView:self];
+    CGFloat offsetX = point.x - _lastPoint.x;
+    CGPoint tempPoint = CGPointMake(btn.center.x + offsetX, btn.center.y);
+    
+    // 得到进度值
+    CGFloat progressValue = (tempPoint.x - _sliderBackgroundView.frame.origin.x)*1.0f/_sliderBackgroundView.frame.size.width;
+    if (progressValue<0) {
+        progressValue = 0;
+    }
+    if (progressValue > 1) {
+        progressValue = 1;
+    }
+    [self setValue:progressValue*_maximumValue];
+    if (self.delegate) {
+        [_delegate sliderScrubbing];
+    }
+}
+#pragma mark 开始拖动
+- (void)beiginSliderScrubbing {
+    if (self.disabled) {
+        return;
+    }
+    if (self.delegate) {
+        [_delegate beiginSliderScrubbing];
+    }
+}
+
+#pragma mark 结束拖动
+- (void)endSliderScrubbing {
+    if (self.disabled) {
+        return;
+    }
+    if (self.delegate) {
+        [_delegate endSliderScrubbing];
+    }
+}
+
+#pragma mark 显示loading
+-(void)showActivity:(BOOL)show {
+    [self.sliderBtn showActivity:show];
+}
+
+- (void)setPlayProgressColor:(UIColor *)playProgressColor {
+    _playProgressColor = playProgressColor;
+    _playProgressView.backgroundColor = _playProgressColor;
+}
+
+- (void)setBufferProgressColor:(UIColor *)bufferProgressColor {
+    _bufferProgressColor = bufferProgressColor;
+    _bufferProgressView.backgroundColor = _bufferProgressColor;
+}
+
+-(void)setSliderBackgoundColor:(UIColor *)sliderBackgoundColor {
+    _sliderBackgoundColor = sliderBackgoundColor;
+    _sliderBackgroundView.backgroundColor = _sliderBackgoundColor;
+}
+
+-(void)setSliderDotDiameter:(CGFloat)sliderDotDiameter {
+    _sliderDotDiameter = sliderDotDiameter;
+    [self.sliderBtn.iconImageView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.width.height.mas_equalTo(sliderDotDiameter);
+    }];
+    self.sliderBtn.iconImageView.layer.cornerRadius = sliderDotDiameter / 2.0;
+    CGFloat scale = sliderDotDiameter / btnWith;
+    CGAffineTransform transform = CGAffineTransformMakeScale(.4 * scale, .4 * scale);
+    self.sliderBtn.activity.transform = transform;
+}
+@end

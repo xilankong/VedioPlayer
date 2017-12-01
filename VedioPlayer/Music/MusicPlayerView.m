@@ -22,7 +22,6 @@
 @property (nonatomic, strong) ProgressSlider *timeSlider;
 
 @property (nonatomic, strong) AVPlayerItem *playerItem;
-
 //播放状态
 @property (nonatomic, assign) VedioStatus playerStatus;
 //文件模型
@@ -56,7 +55,7 @@
 {
     self = [super init];
     if (self) {
-        self.frame = CGRectMake(0, 0, SCREEN_WIDTH, 40);
+        self.frame = CGRectMake(0, 0, SCREEN_WIDTH, toolBarHeight);
         [self initUI];
     }
     return self;
@@ -72,49 +71,41 @@
 
 - (void)initUI {
     
-    self.backgroundColor = [UIColor orangeColor];
-    self.playButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [self.playButton setImage:[UIImage imageNamed:@"video-play"] forState:UIControlStateNormal];
-    [self.playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    self.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.5];
+    
     [self addSubview:self.playButton];
+    [self addSubview:self.timeNowLabel];
+    [self addSubview:self.timeSlider];
+    [self addSubview:self.timeTotalLabel];
+    
+    [self.playButton setImage:playImage forState:UIControlStateNormal];
+    [self.playButton addTarget:self action:@selector(playButtonAction:) forControlEvents:UIControlEventTouchUpInside];
     
     __weak typeof(self) weakself = self;
     [self.playButton mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(weakself).offset(5);
         make.centerY.equalTo(weakself);
-        make.width.mas_equalTo(35);
-        make.height.mas_equalTo(35);
+        make.width.mas_equalTo(toolBarHeight * 0.8);
+        make.height.mas_equalTo(toolBarHeight * 0.8);
     }];
-    
-    self.timeNowLabel = [[UILabel alloc]init];
-    self.timeNowLabel.textColor = [UIColor whiteColor];
-    self.timeNowLabel.font = [UIFont systemFontOfSize:13];
-    self.timeNowLabel.text = @"00:00:00";
-    
-    [self addSubview:self.timeNowLabel];
     
     [self.timeNowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(weakself.playButton.mas_trailing).offset(5);
-        make.centerY.equalTo(weakself);
-        make.height.mas_equalTo(15);
-        make.width.mas_equalTo(60);
+        make.top.bottom.equalTo(weakself);
     }];
     
-    self.timeSlider = [[ProgressSlider alloc] initWithFrame:CGRectMake(110, 0, weakself.frame.size.width - 188, self.frame.size.height)];
-    self.timeSlider.delegate = self;
-    [self addSubview:self.timeSlider];
-    
-    self.timeTotalLabel = [[UILabel alloc]init];
-    self.timeTotalLabel.textColor = [UIColor whiteColor];
-    self.timeTotalLabel.font = [UIFont systemFontOfSize:13];
-    self.timeTotalLabel.text = @"00:00:00";
-    [self addSubview:self.timeTotalLabel];
+
     [self.timeTotalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.trailing.equalTo(weakself).offset(-13);
-        make.centerY.equalTo(weakself);
-        make.height.mas_equalTo(15);
-        make.width.mas_equalTo(60);
+        make.trailing.equalTo(weakself).offset(-15);
+        make.top.bottom.equalTo(weakself);
     }];
+    
+    [self.timeSlider mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.leading.equalTo(weakself.timeNowLabel.mas_trailing).offset(5);
+        make.top.bottom.equalTo(weakself);
+        make.trailing.equalTo(self.timeTotalLabel.mas_leading).offset(-5);
+    }];
+    [self.timeSlider setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
     
 }
 
@@ -125,6 +116,8 @@
 
 #pragma mark 初始化播放文件，只允许在播放按钮事件使用
 - (void)initMusic {
+    
+    [self.timeSlider showActivity:YES];
     self.player = [[AVPlayer alloc]init];
     [self initPlayerItem];
     [self addPlayerListener];
@@ -144,10 +137,10 @@
 - (void)addPlayerListener {
     
     //自定义播放状态监听
-    [self addObserver:self forKeyPath:@"playerStatus" options:NSKeyValueObservingOptionNew context:nil];
+    [self addObserver:self forKeyPath:@"playerStatus" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
     if (self.player) {
         //播放速度监听
-        [self.player addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:nil];
+        [self.player addObserver:self forKeyPath:@"rate" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
     }
     //播放中监听，更新播放进度
     __weak typeof(self) weakSelf = self;
@@ -157,9 +150,12 @@
             currentPlayTime = 0.1; //防止出现时间计算越界问题
         }
         //拖拽期间不更新数据
-        if (!weakSelf.isDragging) {
+        if (!weakSelf.isDragging && weakSelf.playerStatus != VedioStatusBuffering) {
             weakSelf.timeSlider.value = currentPlayTime;
-            weakSelf.timeNowLabel.text = [VedioPlayerConfig convertTime:currentPlayTime];
+            if (isnan(currentPlayTime)) {
+                currentPlayTime = 0;
+            }
+            [weakSelf updateTimeWithTimeNow:currentPlayTime];
         }
     }];
     
@@ -178,16 +174,21 @@
 - (void)addPlayerItemListener {
     if (self.playerItem) {
         //播放状态监听
-        [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:nil];
+        [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
         //缓冲进度监听
-        [self.playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+        [self.playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
     }
     
 }
 
 #pragma mark 监听捕获
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    int new = (int)[change objectForKey:@"new"];
+    int old = (int)[change objectForKey:@"old"];
     if ([keyPath isEqualToString:@"status"]) {
+        if (new == old) {
+            return;
+        }
         AVPlayerItem *item = (AVPlayerItem *)object;
         if ([self.playerItem status] == AVPlayerStatusReadyToPlay) {
             //获取音频总长度
@@ -206,39 +207,42 @@
             NSLog(@"AVPlayerStatusUnknown -- 未知原因停止");
         }
     } else if([keyPath isEqualToString:@"loadedTimeRanges"]) {
-        AVPlayerItem *item = (AVPlayerItem *)object;
-        NSArray * array = item.loadedTimeRanges;
-        CMTimeRange timeRange = [array.firstObject CMTimeRangeValue]; //本次缓冲的时间范围
-        NSTimeInterval totalBuffer = CMTimeGetSeconds(timeRange.start) + CMTimeGetSeconds(timeRange.duration); //缓冲总长度
-        self.timeSlider.trackValue = totalBuffer;
+        NSArray * array = ((AVPlayerItem *)object).loadedTimeRanges;
+        CMTimeRange timeRange = [array.firstObject CMTimeRangeValue];
+        NSTimeInterval totalBuffer = CMTimeGetSeconds(timeRange.start) + CMTimeGetSeconds(timeRange.duration);
+        self.timeSlider.bufferValue = totalBuffer;
         //当缓存到位后开启播放，取消loading
         if (totalBuffer >self.timeSlider.value && self.playerStatus != VedioStatusPause) {
-            [self.player play];
+            [self play];
         }
         NSLog(@"---共缓冲---%.2f",totalBuffer);
     } else if ([keyPath isEqualToString:@"rate"]){
+        if (new == old) {
+            return;
+        }
         AVPlayer *item = (AVPlayer *)object;
-        if (item.rate == 0) {
-            if (self.playerStatus != VedioStatusPause) {
-                self.playerStatus = VedioStatusBuffering;
-            }
-        } else {
+        if (item.rate == 0 && self.playerStatus != VedioStatusPause) {
+            self.playerStatus = VedioStatusBuffering;
+        } else if (item.rate == 1) {
             self.playerStatus = VedioStatusPlaying;
             
         }
         NSLog(@"---播放速度---%f",item.rate);
     } else if([keyPath isEqualToString:@"playerStatus"]){
+        if (new == old) {
+            return;
+        }
         switch (self.playerStatus) {
             case VedioStatusBuffering:
-                [self.timeSlider.sliderBtn showActivity:YES];
+                [self.timeSlider showActivity:YES];
                 break;
             case VedioStatusPause:
                 [self.playButton setImage:[UIImage imageNamed:@"video-play"] forState:UIControlStateNormal];
-                [self.timeSlider.sliderBtn showActivity:NO];
+                [self.timeSlider showActivity:NO];
                 break;
             case VedioStatusPlaying:
                 [self.playButton setImage:[UIImage imageNamed:@"video-pause"] forState:UIControlStateNormal];
-                [self.timeSlider.sliderBtn showActivity:NO];
+                [self.timeSlider showActivity:NO];
                 break;
                 
             default:
@@ -247,10 +251,7 @@
     }
 }
 
-
-
-//销毁player,无奈之举 因为avplayeritem的制空后依然缓存的问题。
-
+//销毁playerItem
 - (void)destroyPlayerItem {
     if (self.playerItem) {
         [self.playerItem removeObserver:self forKeyPath:@"status"];
@@ -261,6 +262,7 @@
     }
 }
 
+//销毁player
 - (void)destroyPlayer {
 
     [self destroyPlayerItem];
@@ -269,8 +271,8 @@
     
     self.player = nil;
     self.timeSlider.value = 0;
-    self.timeSlider.trackValue = 0;
-    self.timeNowLabel.text = @"00:00:00";
+    self.timeSlider.bufferValue = 0;
+    self.timeNowLabel.text = @"00:00";
 }
 
 - (void)changeMusicWithModel:(VedioModel *)musicModel {
@@ -284,11 +286,10 @@
     }
 }
 
-
-#pragma mark 播放，暂停
+#pragma mark 播放, 暂停, 停止
 - (void)play{
     if (self.player && self.playerStatus == VedioStatusPause) {
-        NSLog(@"通过播放停止");
+        NSLog(@"通过播放开始");
         self.playerStatus = VedioStatusBuffering;
         [self.player play];
     }
@@ -302,6 +303,19 @@
     }
 }
 
+#pragma mark 播放按钮事件
+- (void)playButtonAction:(id)sender {
+    if (self.playerItem) {
+        if (self.playerStatus == VedioStatusPause) {
+            [self play];
+        } else {
+            [self pause];
+        }
+    } else {
+        [self initMusic];
+        [self play];
+    }
+}
 #pragma mark 监听播放完成事件
 -(void)playerFinished:(NSNotification *)notification{
     NSLog(@"播放完成");
@@ -325,6 +339,14 @@
     [self pause];
 }
 
+
+#pragma mark 更新时间轴
+- (void)updateTimeWithTimeNow:(CGFloat)timeNow {
+    int time = round(timeNow);
+    self.timeNowLabel.text = [VedioPlayerConfig convertTime:time];
+}
+
+
 #pragma mark 监听拖拽事件,拖拽中、拖拽开始、拖拽结束
 
 // 开始拖动
@@ -335,7 +357,7 @@
 // 拖动值发生改变
 - (void)sliderScrubbing {
     if (self.totalTime != 0) {
-        self.timeNowLabel.text = [VedioPlayerConfig convertTime:self.timeSlider.value];
+        [self updateTimeWithTimeNow:self.timeSlider.value];
     }
 }
 
@@ -343,36 +365,79 @@
 - (void)endSliderScrubbing {
     self.isDragging = NO;
     CMTime time = CMTimeMake(self.timeSlider.value, 1);
-    self.timeNowLabel.text = [VedioPlayerConfig convertTime:self.timeSlider.value];
+    [self updateTimeWithTimeNow:self.timeSlider.value];
     if (self.playerStatus != VedioStatusPause) {
         [self.player pause];
         [self.playerItem seekToTime:time completionHandler:^(BOOL finished) {
-            [self.player play];
             self.playerStatus = VedioStatusBuffering; //结束拖动后处于一个缓冲状态?如果直接拖到结束呢？
+            [self.player play];
         }];
     }
 }
 
-#pragma mark 播放按钮事件
-- (void)playButtonAction:(id)sender {
-    if (self.player) {
-        if (self.playerStatus == VedioStatusPause) {
-            [self play];
-        } else {
-            [self pause];
-        }
-    } else {
-        [self initMusic];
-        [self play];
-    }
-}
-
-#pragma mark 设置时间轴最大时间
+#pragma mark 设置时间轴最大时间、初始化历史播放进度
 - (void)setMaxDuratuin:(float)duration{
+    //设置时间轴最大时间
     _totalTime = duration;
     self.timeSlider.maximumValue = duration;
     self.timeTotalLabel.text = [VedioPlayerConfig convertTime:duration];
+    //初始化历史播放进度
+    CGFloat value = self.musicModel.progress >=  100 ? 0 : round((self.musicModel.progress / 100.0) * 10000) / 10000;
+    self.timeSlider.value = value * _totalTime;
+    [self updateTimeWithTimeNow:self.timeSlider.value];
+    
+    CMTime time = CMTimeMake(self.timeSlider.value, 1);
+    __weak typeof(self) weakself = self;
+    [self.playerItem seekToTime:time completionHandler:^(BOOL finished) {
+        [weakself pause];
+        [weakself.timeSlider showActivity:NO];
+    }];
+    //固定timeLabel的宽度
+    [self.timeTotalLabel sizeToFit];
+    [self.timeTotalLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(weakself.timeTotalLabel.frame.size.width + 5);
+    }];
+    [self.timeNowLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.width.mas_equalTo(weakself.timeTotalLabel.frame.size.width + 5);
+    }];
 }
 
+- (UILabel *)timeNowLabel {
+    if (!_timeNowLabel) {
+        _timeNowLabel = [[UILabel alloc]init];
+        _timeNowLabel.textColor = [UIColor whiteColor];
+        _timeNowLabel.font = [UIFont systemFontOfSize:13];
+        _timeNowLabel.textAlignment = NSTextAlignmentLeft;
+        _timeNowLabel.text = @"00:00";
+    }
+    return _timeNowLabel;
+}
 
+-(UILabel *)timeTotalLabel {
+    if (!_timeTotalLabel) {
+        _timeTotalLabel = [[UILabel alloc]init];
+        _timeTotalLabel.textColor = [UIColor whiteColor];
+        _timeTotalLabel.font = [UIFont systemFontOfSize:13];
+        _timeTotalLabel.text = @"00:00";
+        _timeTotalLabel.textAlignment = NSTextAlignmentRight;
+    }
+    return _timeTotalLabel;
+}
+
+- (UIButton *)playButton {
+    if (!_playButton) {
+        _playButton = [UIButton buttonWithType:UIButtonTypeCustom];
+    }
+    return _playButton;
+}
+
+- (ProgressSlider *)timeSlider {
+    if (!_timeSlider) {
+        _timeSlider = [[ProgressSlider alloc]init];
+        _timeSlider.delegate = self;
+        _timeSlider.sliderDotDiameter = 14;
+        _timeSlider.playProgressColor = [[UIColor redColor]colorWithAlphaComponent:0.7];
+    }
+    return _timeSlider;
+}
 @end

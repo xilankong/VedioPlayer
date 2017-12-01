@@ -20,8 +20,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"导航条";
     VedioModel *model = [[VedioModel alloc]init];
-    model.contentURL = [NSURL URLWithString: @"http://1252828818.vod2.myqcloud.com/9e6670b4vodtransgzp1252828818/c9a6ab6a9031868223502985653/v.f20.mp4"];
+    model.contentURL = [NSURL URLWithString: @"http://1252828818.vod2.myqcloud.com/9e6670b4vodtransgzp1252828818/5296b7c79031868223419539153/v.f20.mp4"];
 
     self.videoController = [[VedioPlayerViewController alloc] initWithFrame:CGRectMake(0, 64, SCREEN_WIDTH, SCREEN_WIDTH * (9.0/16.0))];
     __weak typeof(self) weakself = self;
@@ -37,8 +38,11 @@
     [self.view addSubview:self.videoController.view];
     [self.videoController setUpWithModel:model];
     
+    VedioModel *model2 = [[VedioModel alloc]init];
+    model2.progress = 30;
+    model2.contentURL = [NSURL URLWithString: @"http://sc1.111ttt.com/2016/5/12/09/205092038385.mp3"];
     self.playerView = [[MusicPlayerView alloc]initWithFrame:CGRectMake(0, 250, 320, 40)];
-    [self.playerView setUpWithModel:model];
+    [self.playerView setUpWithModel:model2];
     [self.view addSubview:self.playerView];
     
     
@@ -51,7 +55,7 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)removeAction:(id)sender {
-    [self.videoController stop];
+
 }
 
 //播放失败的代理方法

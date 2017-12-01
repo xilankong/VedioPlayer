@@ -12,13 +12,20 @@
 @class VedioMusicPlayerView;
 
 
-#define playProgressColor [UIColor whiteColor]
-#define bufferProgressColor [[UIColor whiteColor]colorWithAlphaComponent:0.5]
-#define sliderBackgoundColor [[UIColor whiteColor]colorWithAlphaComponent:0.2]
-#define toolBarHeight 50.0f
 #define SCREEN_HEIGHT  [UIScreen mainScreen].bounds.size.height
 #define SCREEN_WIDTH   [UIScreen mainScreen].bounds.size.width
 
+#define default_playProgressColor [UIColor whiteColor]
+#define default_bufferProgressColor [[UIColor whiteColor]colorWithAlphaComponent:0.5]
+#define default_sliderBackgoundColor [[UIColor whiteColor]colorWithAlphaComponent:0.2]
+#define toolBarHeight 44.0f
+
+#define playImage [UIImage imageNamed:@"video-play"]
+#define pauseImage @"video-play"
+#define playBigImage @"video-play"
+#define fullScreenImage @"video-play"
+#define backImage @"video-play"
+#define settingImage @"video-play"
 
 #pragma mark 常用枚举
 

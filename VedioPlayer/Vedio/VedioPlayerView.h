@@ -23,12 +23,14 @@
 @property (nonatomic, strong) ProgressSlider *timeSlider;
 
 @property (nonatomic, strong) UIButton *centerPlayButton;
-@property (nonatomic, strong) UIImageView *loadingImageView;
+@property (nonatomic, strong) UIView *loadingView;
 
 @property (nonatomic, strong) UIView *toolBarView;
 @property (nonatomic, strong) UIImageView *thumbnailImageView;
 
 @property (nonatomic, strong) AVPlayer *player;
+
+- (void)showLoadingView:(BOOL)show;
 
 @end
 
